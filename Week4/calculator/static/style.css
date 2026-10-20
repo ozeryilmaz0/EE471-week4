@@ -1,0 +1,94 @@
+/* Sizes taken from the 464 x 562 design: 16px padding/gaps, 96px buttons, 82px display */
+:root {
+    --body-blue: #0078d7;
+    --digit-gray: #777777;
+    --operator-gray: #a6a6a6;
+    --equals-blue: #004e8c;
+    --gap: 16px;
+    --key-size: 96px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+}
+
+.calculator {
+    background: var(--body-blue);
+    padding: var(--gap);
+    width: calc(4 * var(--key-size) + 5 * var(--gap));
+}
+
+.display {
+    height: 82px;
+    margin-bottom: var(--gap);
+    padding: 0 18px;
+    background: #ffffff;
+    color: #222222;
+    font-size: 44px;
+    line-height: 82px;
+    text-align: right;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+    user-select: none;
+}
+
+/* Server error messages are longer than numbers */
+.display.error {
+    font-size: 26px;
+}
+
+.keys {
+    display: grid;
+    grid-template-columns: repeat(4, var(--key-size));
+    grid-auto-rows: var(--key-size);
+    gap: var(--gap);
+}
+
+.key {
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 36px;
+    font-weight: bold;
+    cursor: pointer;
+    user-select: none;
+}
+
+.digit {
+    background: var(--digit-gray);
+}
+
+.operator {
+    background: var(--operator-gray);
+}
+
+.equals {
+    background: var(--equals-blue);
+}
+
+.key:hover {
+    filter: brightness(1.08);
+}
+
+.key:active {
+    filter: brightness(0.9);
+}
+
+.key:focus-visible {
+    outline: 3px solid #ffffff;
+    outline-offset: -3px;
+}
