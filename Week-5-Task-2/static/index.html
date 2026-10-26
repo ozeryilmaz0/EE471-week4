@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main class="calculator">
+        <div id="display" class="display" title="Click to clear" aria-live="polite">0</div>
+
+        <div class="pad">
+            <button id="mic" class="mic" title="Voice command: click to start, click again to send" aria-label="Start voice command">
+                <svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true">
+                    <rect x="9" y="2" width="6" height="12" rx="3" fill="currentColor"/>
+                    <path d="M5 11a7 7 0 0 0 14 0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M12 18v4M8 22h8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            </button>
+
+            <div class="keys">
+                <button class="key digit" data-value="7">7</button>
+                <button class="key digit" data-value="8">8</button>
+                <button class="key digit" data-value="9">9</button>
+                <button class="key operator" data-op="divide" aria-label="divide">&divide;</button>
+
+                <button class="key digit" data-value="4">4</button>
+                <button class="key digit" data-value="5">5</button>
+                <button class="key digit" data-value="6">6</button>
+                <button class="key operator" data-op="multiply" aria-label="multiply">&times;</button>
+
+                <button class="key digit" data-value="1">1</button>
+                <button class="key digit" data-value="2">2</button>
+                <button class="key digit" data-value="3">3</button>
+                <button class="key operator" data-op="subtract" aria-label="subtract">&minus;</button>
+
+                <button class="key digit" data-value="0">0</button>
+                <button class="key digit" data-value=".">.</button>
+                <button class="key equals" id="equals" aria-label="equals">=</button>
+                <button class="key operator" data-op="add" aria-label="add">+</button>
+            </div>
+        </div>
+    </main>
+
+    <p id="voice-status" class="voice-status" aria-live="polite"></p>
+
+    <script src="script.js"></script>
+</body>
+</html>

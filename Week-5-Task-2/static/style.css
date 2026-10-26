@@ -1,0 +1,159 @@
+/* Sizes taken from the 464 x 562 design: 16px padding/gaps, 96px buttons, 82px display */
+:root {
+    --body-blue: #0078d7;
+    --digit-gray: #777777;
+    --operator-gray: #a6a6a6;
+    --equals-blue: #004e8c;
+    --gap: 16px;
+    --key-size: 96px;
+    --mic-size: 64px;
+    --recording-red: #e81123;
+    --error-red: #c42b1c;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+}
+
+.calculator {
+    background: var(--body-blue);
+    padding: var(--gap);
+    /* The microphone column sits to the left of the 4-column keypad */
+    width: calc(var(--mic-size) + 4 * var(--key-size) + 6 * var(--gap));
+}
+
+.display {
+    height: 82px;
+    margin-bottom: var(--gap);
+    padding: 0 18px;
+    background: #ffffff;
+    color: #222222;
+    font-size: 44px;
+    line-height: 82px;
+    text-align: right;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+    user-select: none;
+}
+
+/* Server error messages are longer than numbers */
+.display.error {
+    font-size: 26px;
+}
+
+.pad {
+    display: flex;
+    align-items: center;
+    gap: var(--gap);
+}
+
+.mic {
+    flex: none;
+    width: var(--mic-size);
+    height: var(--mic-size);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 50%;
+    padding: 0;
+    background: var(--operator-gray);
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.mic:hover {
+    filter: brightness(1.08);
+}
+
+.mic:focus-visible {
+    outline: 3px solid #ffffff;
+    outline-offset: 2px;
+}
+
+.mic.recording {
+    background: var(--recording-red);
+    animation: blink 1s ease-in-out infinite;
+}
+
+.mic:disabled {
+    cursor: wait;
+    opacity: 0.6;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0.35;
+    }
+}
+
+.keys {
+    display: grid;
+    grid-template-columns: repeat(4, var(--key-size));
+    grid-auto-rows: var(--key-size);
+    gap: var(--gap);
+}
+
+.key {
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 36px;
+    font-weight: bold;
+    cursor: pointer;
+    user-select: none;
+}
+
+.digit {
+    background: var(--digit-gray);
+}
+
+.operator {
+    background: var(--operator-gray);
+}
+
+.equals {
+    background: var(--equals-blue);
+}
+
+.key:hover {
+    filter: brightness(1.08);
+}
+
+/* .pressed shows keys "pressed" by a voice command */
+.key:active,
+.key.pressed {
+    filter: brightness(0.9);
+}
+
+.key:focus-visible {
+    outline: 3px solid #ffffff;
+    outline-offset: -3px;
+}
+
+.voice-status {
+    min-height: 1.4em;
+    margin: 12px 0 0;
+    color: #777777;
+    font-size: 14px;
+    text-align: center;
+}
+
+.voice-status.error {
+    color: var(--error-red);
+}
