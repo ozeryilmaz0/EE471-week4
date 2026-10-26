@@ -29,10 +29,43 @@ const diarizeMessage = document.getElementById("diarize-message");
 const conversationSection = document.getElementById("conversation-section");
 const conversation = document.getElementById("conversation");
 
+// ---------- Translation elements ----------
+const translateSource = document.getElementById("translate-source");
+const translateTarget = document.getElementById("translate-target");
+const translateBtn = document.getElementById("translate-btn");
+const translateClearBtn = document.getElementById("translate-clear-btn");
+const translateMessage = document.getElementById("translate-message");
+const translationSection = document.getElementById("translation-section");
+const originalText = document.getElementById("original-text");
+const translatedText = document.getElementById("translated-text");
+const speakBtn = document.getElementById("speak-btn");
+const translationPlayer = document.getElementById("translation-player");
+
+// ---------- Pronunciation elements ----------
+const referenceText = document.getElementById("reference-text");
+const pronunciationLanguage = document.getElementById("pronunciation-language");
+const pronunciationBtn = document.getElementById("pronunciation-btn");
+const pronunciationClearBtn = document.getElementById("pronunciation-clear-btn");
+const pronunciationMessage = document.getElementById("pronunciation-message");
+const assessmentSection = document.getElementById("assessment-section");
+const scoreBars = document.getElementById("score-bars");
+const wordList = document.getElementById("word-list");
+const recognizedText = document.getElementById("recognized-text");
+
 const COPY_LABEL = copyBtn.textContent;
 const SPEAKER_COLOR_COUNT = 6;
 
-let audioUrl = null;
+// Score keys returned by /api/pronunciation and their display labels
+const SCORE_LABELS = [
+    ["pronunciation", "Pronunciation"],
+    ["accuracy", "Accuracy"],
+    ["fluency", "Fluency"],
+    ["completeness", "Completeness"],
+];
+const WORD_ERROR_TYPES = ["Omission", "Insertion", "Mispronunciation"];
+
+// Text and voice of the latest translation, used by "Speak Translation"
+let lastTranslation = null;
 
 // ---------- Shared helpers ----------
 
@@ -74,6 +107,35 @@ function setLoading(button, isLoading, loadingText) {
 async function getErrorMessage(response) {
     const data = await response.json().catch(() => ({}));
     return data.error || `Request failed with status ${response.status}`;
+}
+
+// Ask the backend to synthesize text with the given voice and return the WAV blob
+async function fetchSpeech(text, voice) {
+    const response = await fetch("/api/tts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text, voice }),
+    });
+
+    if (!response.ok) {
+        throw new Error(await getErrorMessage(response));
+    }
+    return response.blob();
+}
+
+// Point an audio element at a new blob and free the previous blob URL
+function loadAudio(player, blob) {
+    unloadAudio(player);
+    player.src = URL.createObjectURL(blob);
+    return player.src;
+}
+
+// Remove an audio element's source and free its blob URL
+function unloadAudio(player) {
+    if (player.src.startsWith("blob:")) {
+        URL.revokeObjectURL(player.src);
+    }
+    player.removeAttribute("src");
 }
 
 // ---------- Shared record / upload control ----------
@@ -190,8 +252,8 @@ function createAudioInput(container, messageBox) {
     };
 }
 
-// Send the audio from a record / upload block to an API endpoint and return its JSON
-async function postAudio(url, audioInput, language) {
+// Send the audio from a record / upload block plus extra form fields to an API endpoint
+async function postAudio(url, audioInput, fields) {
     const audio = audioInput.getAudio();
     if (!audio) {
         throw new Error("Please record audio or choose an audio file first.");
@@ -199,7 +261,7 @@ async function postAudio(url, audioInput, language) {
 
     const formData = new FormData();
     formData.append("audio", audio.blob, audio.filename);
-    formData.append("language", language);
+    Object.entries(fields).forEach(([name, value]) => formData.append(name, value));
 
     const response = await fetch(url, { method: "POST", body: formData });
     if (!response.ok) {
@@ -210,16 +272,17 @@ async function postAudio(url, audioInput, language) {
 
 const sttAudio = createAudioInput(document.getElementById("stt-audio-input"), sttMessage);
 const diarizeAudio = createAudioInput(document.getElementById("diarize-audio-input"), diarizeMessage);
+const translateAudio = createAudioInput(document.getElementById("translate-audio-input"), translateMessage);
+const pronunciationAudio = createAudioInput(
+    document.getElementById("pronunciation-audio-input"),
+    pronunciationMessage,
+);
 
 // ---------- Text to Speech ----------
 
-// Release the previous audio blob URL and hide the audio section
+// Clear the audio player and hide the audio section
 function resetAudio() {
-    if (audioUrl) {
-        URL.revokeObjectURL(audioUrl);
-        audioUrl = null;
-    }
-    audioPlayer.removeAttribute("src");
+    unloadAudio(audioPlayer);
     downloadBtn.removeAttribute("href");
     audioSection.classList.add("hidden");
 }
@@ -236,21 +299,8 @@ async function synthesize() {
     setLoading(synthesizeBtn, true, "Synthesizing...");
 
     try {
-        const response = await fetch("/api/tts", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ text, voice: voiceSelect.value }),
-        });
-
-        if (!response.ok) {
-            throw new Error(await getErrorMessage(response));
-        }
-
-        const blob = await response.blob();
-        resetAudio();
-        audioUrl = URL.createObjectURL(blob);
-        audioPlayer.src = audioUrl;
-        downloadBtn.href = audioUrl;
+        const blob = await fetchSpeech(text, voiceSelect.value);
+        downloadBtn.href = loadAudio(audioPlayer, blob);
         audioSection.classList.remove("hidden");
         showMessage(ttsMessage, "✓ Speech synthesized successfully!", "success");
     } catch (err) {
@@ -276,7 +326,7 @@ async function transcribe() {
     setLoading(transcribeBtn, true, "Transcribing...");
 
     try {
-        const data = await postAudio("/api/stt", sttAudio, sttLanguage.value);
+        const data = await postAudio("/api/stt", sttAudio, { language: sttLanguage.value });
         resultText.textContent = data.text;
         resultSection.classList.remove("hidden");
         showMessage(sttMessage, "✓ Audio transcribed successfully!", "success");
@@ -345,7 +395,7 @@ async function identifySpeakers() {
     setLoading(diarizeBtn, true, "Identifying speakers...");
 
     try {
-        const data = await postAudio("/api/diarize", diarizeAudio, diarizeLanguage.value);
+        const data = await postAudio("/api/diarize", diarizeAudio, { language: diarizeLanguage.value });
         const speakerCount = renderConversation(data.segments);
         const label = speakerCount === 1 ? "speaker" : "speakers";
         showMessage(diarizeMessage, `✓ Identified ${speakerCount} ${label}!`, "success");
@@ -364,6 +414,177 @@ function clearDiarize() {
     conversationSection.classList.add("hidden");
 }
 
+// ---------- Translation ----------
+
+// Hide the spoken translation player and free its audio
+function resetTranslationAudio() {
+    unloadAudio(translationPlayer);
+    translationPlayer.classList.add("hidden");
+}
+
+// Send the recording (or the selected file) to the backend for speech translation
+async function translateSpeech() {
+    hideMessage(translateMessage);
+    setLoading(translateBtn, true, "Translating...");
+
+    // Remember the voice for the target language chosen at request time
+    const voice = translateTarget.selectedOptions[0].dataset.voice;
+
+    try {
+        const data = await postAudio("/api/translate", translateAudio, {
+            source: translateSource.value,
+            target: translateTarget.value,
+        });
+
+        originalText.textContent = data.original;
+        translatedText.textContent = data.translation;
+        lastTranslation = { text: data.translation, voice };
+        speakBtn.disabled = !data.translation;
+        resetTranslationAudio();
+        translationSection.classList.remove("hidden");
+        showMessage(translateMessage, "✓ Audio translated successfully!", "success");
+    } catch (err) {
+        showMessage(translateMessage, err.message, "error");
+    } finally {
+        setLoading(translateBtn, false);
+    }
+}
+
+// Speak the latest translation with a voice that matches its language
+async function speakTranslation() {
+    if (!lastTranslation || !lastTranslation.text) return;
+
+    hideMessage(translateMessage);
+    setLoading(speakBtn, true, "Synthesizing...");
+
+    try {
+        const blob = await fetchSpeech(lastTranslation.text, lastTranslation.voice);
+        loadAudio(translationPlayer, blob);
+        translationPlayer.classList.remove("hidden");
+        // The player has controls, so ignore autoplay restrictions
+        translationPlayer.play().catch(() => {});
+    } catch (err) {
+        showMessage(translateMessage, err.message, "error");
+    } finally {
+        setLoading(speakBtn, false);
+    }
+}
+
+// Reset the recording, file, messages and translation
+function clearTranslate() {
+    translateAudio.clear();
+    hideMessage(translateMessage);
+    lastTranslation = null;
+    originalText.textContent = "";
+    translatedText.textContent = "";
+    resetTranslationAudio();
+    translationSection.classList.add("hidden");
+}
+
+// ---------- Pronunciation ----------
+
+// Map a 0-100 score to a color level: good (>= 80), fair (60-79) or poor (< 60)
+function scoreLevel(score) {
+    if (score >= 80) return "good";
+    if (score >= 60) return "fair";
+    return "poor";
+}
+
+// Draw one horizontal colored bar per score
+function renderScores(scores) {
+    scoreBars.innerHTML = "";
+
+    SCORE_LABELS.forEach(([key, label]) => {
+        const score = Number(scores[key]) || 0;
+
+        const row = document.createElement("div");
+        row.className = "score-row";
+
+        const name = document.createElement("span");
+        name.className = "score-label";
+        name.textContent = label;
+
+        const track = document.createElement("div");
+        track.className = "score-track";
+        const fill = document.createElement("div");
+        fill.className = `score-fill ${scoreLevel(score)}`;
+        fill.style.width = `${Math.min(Math.max(score, 0), 100)}%`;
+        track.appendChild(fill);
+
+        const value = document.createElement("span");
+        value.className = "score-value";
+        value.textContent = Math.round(score);
+
+        row.append(name, track, value);
+        scoreBars.appendChild(row);
+    });
+}
+
+// Show each word colored by its accuracy, with a small tag for miscues
+function renderWords(words) {
+    wordList.innerHTML = "";
+
+    words.forEach(({ word, accuracy_score: score, error_type: errorType }) => {
+        const item = document.createElement("div");
+        item.className = "word";
+
+        const text = document.createElement("span");
+        text.className = `word-text ${scoreLevel(score)}`;
+        text.textContent = word;
+        text.title = `Accuracy: ${Math.round(score)}`;
+        item.appendChild(text);
+
+        if (WORD_ERROR_TYPES.includes(errorType)) {
+            item.classList.add(errorType.toLowerCase());
+            const tag = document.createElement("span");
+            tag.className = "word-tag";
+            tag.textContent = errorType;
+            item.appendChild(tag);
+        }
+
+        wordList.appendChild(item);
+    });
+}
+
+// Send the recording (or the selected file) and reference text for pronunciation assessment
+async function assessPronunciation() {
+    const reference = referenceText.value.trim();
+    if (!reference) {
+        showMessage(pronunciationMessage, "Reference text cannot be empty", "error");
+        return;
+    }
+
+    hideMessage(pronunciationMessage);
+    setLoading(pronunciationBtn, true, "Assessing...");
+
+    try {
+        const data = await postAudio("/api/pronunciation", pronunciationAudio, {
+            reference_text: reference,
+            language: pronunciationLanguage.value,
+        });
+
+        renderScores(data.scores);
+        renderWords(data.words);
+        recognizedText.textContent = data.recognized;
+        assessmentSection.classList.remove("hidden");
+        showMessage(pronunciationMessage, "✓ Pronunciation assessed successfully!", "success");
+    } catch (err) {
+        showMessage(pronunciationMessage, err.message, "error");
+    } finally {
+        setLoading(pronunciationBtn, false);
+    }
+}
+
+// Reset the recording, file, messages and assessment results (keeps the reference text)
+function clearPronunciation() {
+    pronunciationAudio.clear();
+    hideMessage(pronunciationMessage);
+    scoreBars.innerHTML = "";
+    wordList.innerHTML = "";
+    recognizedText.textContent = "";
+    assessmentSection.classList.add("hidden");
+}
+
 // ---------- Event listeners ----------
 tabs.forEach((tab) => tab.addEventListener("click", () => switchTab(tab.dataset.tab)));
 
@@ -376,3 +597,10 @@ copyBtn.addEventListener("click", copyText);
 
 diarizeBtn.addEventListener("click", identifySpeakers);
 diarizeClearBtn.addEventListener("click", clearDiarize);
+
+translateBtn.addEventListener("click", translateSpeech);
+translateClearBtn.addEventListener("click", clearTranslate);
+speakBtn.addEventListener("click", speakTranslation);
+
+pronunciationBtn.addEventListener("click", assessPronunciation);
+pronunciationClearBtn.addEventListener("click", clearPronunciation);

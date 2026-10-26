@@ -1,13 +1,17 @@
-{# Language picker plus record / upload controls, shared by the STT and Diarization tabs #}
-{% macro audio_input(prefix, label) %}
+{# Language picker for the STT and Diarization tabs #}
+{% macro language_field(prefix) %}
             <div class="field">
                 <label for="{{ prefix }}-language">Language:</label>
                 <select id="{{ prefix }}-language">
-                    <option value="en-US">English (en-US)</option>
-                    <option value="tr-TR">Türkçe (tr-TR)</option>
+                    {% for code, name in languages.items() %}
+                    <option value="{{ code }}">{{ name }}</option>
+                    {% endfor %}
                 </select>
             </div>
+{% endmacro %}
 
+{# Record / upload controls, shared by every audio tab #}
+{% macro audio_input(prefix, label) %}
             <div id="{{ prefix }}-audio-input" class="field audio-input">
                 <label>{{ label }}</label>
                 <div class="input-row">
@@ -37,6 +41,8 @@
             <button class="tab active" data-tab="tts" role="tab" aria-selected="true">Text to Speech</button>
             <button class="tab" data-tab="stt" role="tab" aria-selected="false">Speech to Text</button>
             <button class="tab" data-tab="diarize" role="tab" aria-selected="false">Diarization</button>
+            <button class="tab" data-tab="translate" role="tab" aria-selected="false">Translation</button>
+            <button class="tab" data-tab="pronunciation" role="tab" aria-selected="false">Pronunciation</button>
         </nav>
 
         <!-- Text to Speech panel -->
@@ -72,6 +78,7 @@
 
         <!-- Speech to Text panel -->
         <section id="stt-panel" class="panel hidden" role="tabpanel">
+            {{ language_field("stt") }}
             {{ audio_input("stt", "Record or upload audio to convert to text:") }}
 
             <div class="buttons">
@@ -92,6 +99,7 @@
         <section id="diarize-panel" class="panel hidden" role="tabpanel">
             <p class="panel-description">Real-time speaker diarization — who spoke when</p>
 
+            {{ language_field("diarize") }}
             {{ audio_input("diarize", "Record or upload a conversation:") }}
 
             <div class="buttons">
@@ -104,6 +112,81 @@
             <div id="conversation-section" class="output-box conversation-section hidden">
                 <h2>Conversation:</h2>
                 <div id="conversation" class="conversation"></div>
+            </div>
+        </section>
+
+        <!-- Translation panel -->
+        <section id="translate-panel" class="panel hidden" role="tabpanel">
+            <div class="field language-pair">
+                <div class="language-pair-item">
+                    <label for="translate-source">Source language:</label>
+                    <select id="translate-source">
+                        {% for code, name in translation_sources.items() %}
+                        <option value="{{ code }}">{{ name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <span class="language-arrow" aria-hidden="true">➜</span>
+                <div class="language-pair-item">
+                    <label for="translate-target">Target language:</label>
+                    <select id="translate-target">
+                        {% for code, target in translation_targets.items() %}
+                        <option value="{{ code }}" data-voice="{{ target.voice }}">{{ target.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            {{ audio_input("translate", "Record or upload audio to translate:") }}
+
+            <div class="buttons">
+                <button id="translate-btn" class="btn btn-primary btn-wide">🌐 Translate</button>
+                <button id="translate-clear-btn" class="btn btn-secondary">Clear</button>
+            </div>
+
+            <div id="translate-message" class="message hidden"></div>
+
+            <div id="translation-section" class="output-box translation-section hidden">
+                <div class="translation-boxes">
+                    <div class="translation-box">
+                        <h2>Original</h2>
+                        <p id="original-text" class="result-text"></p>
+                    </div>
+                    <div class="translation-box">
+                        <h2>Translation</h2>
+                        <p id="translated-text" class="result-text"></p>
+                    </div>
+                </div>
+                <button id="speak-btn" class="btn btn-info">🔊 Speak Translation</button>
+                <audio id="translation-player" class="translation-player hidden" controls></audio>
+            </div>
+        </section>
+
+        <!-- Pronunciation panel -->
+        <section id="pronunciation-panel" class="panel hidden" role="tabpanel">
+            <div class="field">
+                <label for="reference-text">Reference text:</label>
+                <textarea id="reference-text" rows="3">The quick brown fox jumps over the lazy dog.</textarea>
+            </div>
+
+            {{ language_field("pronunciation") }}
+            {{ audio_input("pronunciation", "Record or upload yourself reading the text:") }}
+
+            <div class="buttons">
+                <button id="pronunciation-btn" class="btn btn-primary btn-wide">🗣 Assess Pronunciation</button>
+                <button id="pronunciation-clear-btn" class="btn btn-secondary">Clear</button>
+            </div>
+
+            <div id="pronunciation-message" class="message hidden"></div>
+
+            <div id="assessment-section" class="output-box assessment-section hidden">
+                <h2>Scores:</h2>
+                <div id="score-bars" class="score-bars"></div>
+
+                <h2>Words:</h2>
+                <div id="word-list" class="word-list"></div>
+
+                <p class="recognized-text">Recognized: <span id="recognized-text"></span></p>
             </div>
         </section>
     </main>
