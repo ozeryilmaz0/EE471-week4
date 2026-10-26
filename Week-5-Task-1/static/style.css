@@ -245,6 +245,63 @@ audio {
     line-height: 1.6;
 }
 
+/* Diarization */
+.panel-description {
+    margin-bottom: 20px;
+    color: #888;
+    font-size: 0.9rem;
+    font-style: italic;
+}
+
+.conversation-section {
+    background: #f7f7fb;
+}
+
+.conversation {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.bubble-row {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    max-width: 80%;
+}
+
+.bubble-row.right {
+    align-self: flex-end;
+    align-items: flex-end;
+}
+
+.speaker-name {
+    margin: 0 6px 4px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--speaker-color);
+}
+
+.bubble {
+    padding: 10px 14px;
+    border-radius: 16px 16px 16px 4px;
+    background: var(--speaker-bg);
+    border: 1px solid var(--speaker-color);
+    line-height: 1.5;
+    white-space: pre-wrap;
+}
+
+.bubble-row.right .bubble {
+    border-radius: 16px 16px 4px 16px;
+}
+
+.speaker-0 { --speaker-color: #764ba2; --speaker-bg: #f1e9fa; }
+.speaker-1 { --speaker-color: #1e88e5; --speaker-bg: #e3f2fd; }
+.speaker-2 { --speaker-color: #2e7d32; --speaker-bg: #e8f5e9; }
+.speaker-3 { --speaker-color: #ef6c00; --speaker-bg: #fff3e0; }
+.speaker-4 { --speaker-color: #c2185b; --speaker-bg: #fce4ec; }
+.speaker-5 { --speaker-color: #00838f; --speaker-bg: #e0f7fa; }
+
 .hidden {
     display: none;
 }

@@ -1,3 +1,25 @@
+{# Language picker plus record / upload controls, shared by the STT and Diarization tabs #}
+{% macro audio_input(prefix, label) %}
+            <div class="field">
+                <label for="{{ prefix }}-language">Language:</label>
+                <select id="{{ prefix }}-language">
+                    <option value="en-US">English (en-US)</option>
+                    <option value="tr-TR">Türkçe (tr-TR)</option>
+                </select>
+            </div>
+
+            <div id="{{ prefix }}-audio-input" class="field audio-input">
+                <label>{{ label }}</label>
+                <div class="input-row">
+                    <button class="btn btn-primary record-btn">🎙 Start Recording</button>
+                    <button class="btn btn-danger stop-btn" disabled>⏹ Stop Recording</button>
+                    <input class="file-input" type="file" accept="audio/*">
+                </div>
+
+                <div class="recording-indicator hidden">● Recording...</div>
+                <p class="status hidden"></p>
+            </div>
+{% endmacro %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,6 +36,7 @@
         <nav class="tabs" role="tablist">
             <button class="tab active" data-tab="tts" role="tab" aria-selected="true">Text to Speech</button>
             <button class="tab" data-tab="stt" role="tab" aria-selected="false">Speech to Text</button>
+            <button class="tab" data-tab="diarize" role="tab" aria-selected="false">Diarization</button>
         </nav>
 
         <!-- Text to Speech panel -->
@@ -49,25 +72,7 @@
 
         <!-- Speech to Text panel -->
         <section id="stt-panel" class="panel hidden" role="tabpanel">
-            <div class="field">
-                <label for="language-select">Language:</label>
-                <select id="language-select">
-                    <option value="en-US">English (en-US)</option>
-                    <option value="tr-TR">Türkçe (tr-TR)</option>
-                </select>
-            </div>
-
-            <div class="field">
-                <label>Record or upload audio to convert to text:</label>
-                <div class="input-row">
-                    <button id="record-btn" class="btn btn-primary">🎙 Start Recording</button>
-                    <button id="stop-btn" class="btn btn-danger" disabled>⏹ Stop Recording</button>
-                    <input id="file-input" type="file" accept="audio/*">
-                </div>
-
-                <div id="recording-indicator" class="recording-indicator hidden">● Recording...</div>
-                <p id="recording-status" class="status hidden"></p>
-            </div>
+            {{ audio_input("stt", "Record or upload audio to convert to text:") }}
 
             <div class="buttons">
                 <button id="transcribe-btn" class="btn btn-primary btn-wide">📄 Transcribe Audio</button>
@@ -80,6 +85,25 @@
                 <h2>Transcription:</h2>
                 <p id="result-text" class="result-text"></p>
                 <button id="copy-btn" class="btn btn-info">📋 Copy Text</button>
+            </div>
+        </section>
+
+        <!-- Diarization panel -->
+        <section id="diarize-panel" class="panel hidden" role="tabpanel">
+            <p class="panel-description">Real-time speaker diarization — who spoke when</p>
+
+            {{ audio_input("diarize", "Record or upload a conversation:") }}
+
+            <div class="buttons">
+                <button id="diarize-btn" class="btn btn-primary btn-wide">👥 Identify Speakers</button>
+                <button id="diarize-clear-btn" class="btn btn-secondary">Clear</button>
+            </div>
+
+            <div id="diarize-message" class="message hidden"></div>
+
+            <div id="conversation-section" class="output-box conversation-section hidden">
+                <h2>Conversation:</h2>
+                <div id="conversation" class="conversation"></div>
             </div>
         </section>
     </main>

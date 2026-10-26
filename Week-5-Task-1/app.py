@@ -82,21 +82,10 @@ def convert_to_wav(file_storage):
     return output_path
 
 
-# Run continuous recognition on a WAV file and return the combined text
-def transcribe(wav_path, language):
-    speech_config = get_speech_config()
-    speech_config.speech_recognition_language = language
-    audio_config = speechsdk.audio.AudioConfig(filename=wav_path)
-    recognizer = speechsdk.SpeechRecognizer(speech_config=speech_config, audio_config=audio_config)
-
+# Start a recognizer, wait until its session stops or is canceled, then stop it
+def run_until_stopped(recognizer, start, stop):
     done = threading.Event()
-    sentences = []
     errors = []
-
-    # Collect each recognized sentence
-    def on_recognized(evt):
-        if evt.result.reason == speechsdk.ResultReason.RecognizedSpeech and evt.result.text:
-            sentences.append(evt.result.text)
 
     # Record Azure errors and stop waiting
     def on_canceled(evt):
@@ -109,18 +98,91 @@ def transcribe(wav_path, language):
     def on_session_stopped(evt):
         done.set()
 
-    recognizer.recognized.connect(on_recognized)
     recognizer.canceled.connect(on_canceled)
     recognizer.session_stopped.connect(on_session_stopped)
 
-    recognizer.start_continuous_recognition()
+    start()
     done.wait()
-    recognizer.stop_continuous_recognition()
+    stop()
 
     if errors:
         raise RuntimeError(errors[0])
 
+
+# Run continuous recognition on a WAV file and return the combined text
+def transcribe(wav_path, language):
+    speech_config = get_speech_config()
+    speech_config.speech_recognition_language = language
+    audio_config = speechsdk.audio.AudioConfig(filename=wav_path)
+    recognizer = speechsdk.SpeechRecognizer(speech_config=speech_config, audio_config=audio_config)
+
+    sentences = []
+
+    # Collect each recognized sentence
+    def on_recognized(evt):
+        if evt.result.reason == speechsdk.ResultReason.RecognizedSpeech and evt.result.text:
+            sentences.append(evt.result.text)
+
+    recognizer.recognized.connect(on_recognized)
+    run_until_stopped(
+        recognizer,
+        recognizer.start_continuous_recognition,
+        recognizer.stop_continuous_recognition,
+    )
+
     return " ".join(sentences).strip()
+
+
+# Run conversation transcription on a WAV file and return speaker-labeled segments
+def diarize(wav_path, language):
+    speech_config = get_speech_config()
+    speech_config.speech_recognition_language = language
+    audio_config = speechsdk.audio.AudioConfig(filename=wav_path)
+    transcriber = speechsdk.transcription.ConversationTranscriber(
+        speech_config=speech_config, audio_config=audio_config
+    )
+
+    segments = []
+
+    # Collect each transcribed phrase together with its speaker ID
+    def on_transcribed(evt):
+        if evt.result.reason == speechsdk.ResultReason.RecognizedSpeech and evt.result.text:
+            segments.append({
+                "speaker": evt.result.speaker_id or "Unknown",
+                "text": evt.result.text,
+            })
+
+    transcriber.transcribed.connect(on_transcribed)
+    run_until_stopped(
+        transcriber,
+        lambda: transcriber.start_transcribing_async().get(),
+        lambda: transcriber.stop_transcribing_async().get(),
+    )
+
+    return segments
+
+
+# Validate the uploaded audio, convert it to WAV and pass it to the given processor.
+# Returns (result, None) on success or (None, error_response) on failure.
+def process_uploaded_audio(processor):
+    audio_file = request.files.get("audio")
+    if audio_file is None or not audio_file.filename:
+        return None, (jsonify({"error": "No audio file provided"}), 400)
+
+    language = request.form.get("language") or DEFAULT_LANGUAGE
+    if language not in ALLOWED_LANGUAGES:
+        language = DEFAULT_LANGUAGE
+
+    wav_path = None
+    try:
+        wav_path = convert_to_wav(audio_file)
+        return processor(wav_path, language), None
+    except ValueError as e:
+        return None, (jsonify({"error": str(e)}), 400)
+    except RuntimeError as e:
+        return None, (jsonify({"error": str(e)}), 500)
+    finally:
+        remove_file(wav_path)
 
 
 # Serve the main page
@@ -169,29 +231,27 @@ def tts():
 # Convert an uploaded or recorded audio file to text
 @app.route("/api/stt", methods=["POST"])
 def stt():
-    audio_file = request.files.get("audio")
-    if audio_file is None or not audio_file.filename:
-        return jsonify({"error": "No audio file provided"}), 400
-
-    language = request.form.get("language") or DEFAULT_LANGUAGE
-    if language not in ALLOWED_LANGUAGES:
-        language = DEFAULT_LANGUAGE
-
-    wav_path = None
-    try:
-        wav_path = convert_to_wav(audio_file)
-        text = transcribe(wav_path, language)
-    except ValueError as e:
-        return jsonify({"error": str(e)}), 400
-    except RuntimeError as e:
-        return jsonify({"error": str(e)}), 500
-    finally:
-        remove_file(wav_path)
+    text, error = process_uploaded_audio(transcribe)
+    if error:
+        return error
 
     if not text:
         return jsonify({"error": "No speech could be recognized"}), 422
 
     return jsonify({"text": text})
+
+
+# Identify who spoke when in an uploaded or recorded audio file
+@app.route("/api/diarize", methods=["POST"])
+def diarize_audio():
+    segments, error = process_uploaded_audio(diarize)
+    if error:
+        return error
+
+    if not segments:
+        return jsonify({"error": "No speech could be recognized"}), 422
+
+    return jsonify({"segments": segments})
 
 
 if __name__ == "__main__":
