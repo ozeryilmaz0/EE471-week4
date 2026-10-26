@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speech-to-Text</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <main class="card">
+        <h1>🎤 Speech-to-Text</h1>
+        <p class="subtitle">Powered by Azure Cognitive Services</p>
+
+        <label for="language-select">Language:</label>
+        <select id="language-select">
+            <option value="en-US">English (en-US)</option>
+            <option value="tr-TR">Türkçe (tr-TR)</option>
+        </select>
+
+        <label>Record or upload audio to convert to text:</label>
+        <div class="input-row">
+            <button id="record-btn" class="btn btn-primary">🎙 Start Recording</button>
+            <button id="stop-btn" class="btn btn-danger" disabled>⏹ Stop Recording</button>
+            <input id="file-input" type="file" accept="audio/*">
+        </div>
+
+        <div id="recording-indicator" class="recording-indicator hidden">● Recording...</div>
+        <p id="recording-status" class="status hidden"></p>
+
+        <div class="buttons">
+            <button id="transcribe-btn" class="btn btn-primary btn-wide">📄 Transcribe Audio</button>
+            <button id="clear-btn" class="btn btn-secondary">Clear</button>
+        </div>
+
+        <div id="message" class="message hidden"></div>
+
+        <div id="result-section" class="result-section hidden">
+            <h2>Transcription:</h2>
+            <p id="result-text" class="result-text"></p>
+            <button id="copy-btn" class="btn btn-copy">📋 Copy Text</button>
+        </div>
+    </main>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
