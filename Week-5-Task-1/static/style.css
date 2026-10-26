@@ -17,7 +17,7 @@ body {
 
 .card {
     width: 100%;
-    max-width: 600px;
+    max-width: 640px;
     background: #fff;
     border-radius: 16px;
     padding: 36px 32px;
@@ -43,7 +43,6 @@ label {
     margin-bottom: 8px;
 }
 
-textarea,
 select {
     width: 100%;
     padding: 12px;
@@ -55,30 +54,64 @@ select {
     transition: border-color 0.2s;
 }
 
-textarea {
-    resize: vertical;
-}
-
-textarea:focus,
 select:focus {
     outline: none;
     border-color: #667eea;
 }
 
-.buttons {
+.input-row {
     display: flex;
+    flex-wrap: wrap;
+    align-items: center;
     gap: 12px;
 }
 
+input[type="file"] {
+    flex: 1;
+    min-width: 200px;
+    padding: 10px;
+    border: 2px dashed #c5c8f0;
+    border-radius: 10px;
+    background: #fafaff;
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.recording-indicator {
+    margin-top: 16px;
+    padding: 10px 14px;
+    border: 2px solid #e53935;
+    border-radius: 10px;
+    color: #e53935;
+    font-weight: 600;
+    animation: pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.status {
+    margin-top: 12px;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+}
+
 .btn {
-    display: inline-block;
     padding: 12px 20px;
     border: none;
     border-radius: 10px;
     font-size: 1rem;
     font-weight: 600;
-    text-align: center;
-    text-decoration: none;
+    font-family: inherit;
+    color: #fff;
     cursor: pointer;
     transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
 }
@@ -89,25 +122,29 @@ select:focus {
 }
 
 .btn:disabled {
-    opacity: 0.6;
+    opacity: 0.5;
     cursor: not-allowed;
 }
 
 .btn-primary {
-    flex: 1;
-    color: #fff;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
+.btn-danger {
+    background: #e53935;
+}
+
 .btn-secondary {
-    color: #fff;
     background: #9e9e9e;
 }
 
-.btn-download {
+.btn-copy {
     margin-top: 14px;
-    color: #fff;
     background: #2196f3;
+}
+
+.btn-wide {
+    flex: 1;
 }
 
 .message {
@@ -129,20 +166,23 @@ select:focus {
     color: #c62828;
 }
 
-.audio-section {
+.result-section {
     margin-top: 24px;
     padding: 20px;
-    background: #f7f7fb;
+    background: #e3f2fd;
+    border: 1px solid #90caf9;
     border-radius: 12px;
 }
 
-.audio-section h2 {
+.result-section h2 {
     font-size: 1.1rem;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
+    color: #1565c0;
 }
 
-audio {
-    width: 100%;
+.result-text {
+    white-space: pre-wrap;
+    line-height: 1.6;
 }
 
 .hidden {

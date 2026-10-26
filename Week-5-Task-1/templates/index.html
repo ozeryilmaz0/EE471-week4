@@ -3,36 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Text-to-Speech</title>
+    <title>Speech-to-Text</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <main class="card">
-        <h1>🎤 Text-to-Speech</h1>
+        <h1>🎤 Speech-to-Text</h1>
         <p class="subtitle">Powered by Azure Cognitive Services</p>
 
-        <label for="text-input">Enter text to convert to speech:</label>
-        <textarea id="text-input" rows="6" placeholder="Type something..."></textarea>
-
-        <label for="voice-select">Voice:</label>
-        <select id="voice-select">
-            <option value="en-US-JennyNeural">en-US-JennyNeural</option>
-            <option value="en-US-GuyNeural">en-US-GuyNeural</option>
-            <option value="tr-TR-EmelNeural">tr-TR-EmelNeural</option>
-            <option value="tr-TR-AhmetNeural">tr-TR-AhmetNeural</option>
+        <label for="language-select">Language:</label>
+        <select id="language-select">
+            <option value="en-US">English (en-US)</option>
+            <option value="tr-TR">Türkçe (tr-TR)</option>
         </select>
 
+        <label>Record or upload audio to convert to text:</label>
+        <div class="input-row">
+            <button id="record-btn" class="btn btn-primary">🎙 Start Recording</button>
+            <button id="stop-btn" class="btn btn-danger" disabled>⏹ Stop Recording</button>
+            <input id="file-input" type="file" accept="audio/*">
+        </div>
+
+        <div id="recording-indicator" class="recording-indicator hidden">● Recording...</div>
+        <p id="recording-status" class="status hidden"></p>
+
         <div class="buttons">
-            <button id="synthesize-btn" class="btn btn-primary">🔊 Synthesize Speech</button>
+            <button id="transcribe-btn" class="btn btn-primary btn-wide">📄 Transcribe Audio</button>
             <button id="clear-btn" class="btn btn-secondary">Clear</button>
         </div>
 
         <div id="message" class="message hidden"></div>
 
-        <div id="audio-section" class="audio-section hidden">
-            <h2>Generated Audio:</h2>
-            <audio id="audio-player" controls></audio>
-            <a id="download-btn" class="btn btn-download" download="speech.wav">⬇ Download Audio</a>
+        <div id="result-section" class="result-section hidden">
+            <h2>Transcription:</h2>
+            <p id="result-text" class="result-text"></p>
+            <button id="copy-btn" class="btn btn-copy">📋 Copy Text</button>
         </div>
     </main>
 
