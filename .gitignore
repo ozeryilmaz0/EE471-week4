@@ -3,5 +3,11 @@ __pycache__/
 .env
 venv/
 uploads/
+test_audio/
+hub/
+payload.json
 *.wav
+*.avi
+*.mp4
 VIDEO_NOTES*.md
+VIDEO_*.md
