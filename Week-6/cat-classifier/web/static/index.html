@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cat Kind Classifier</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="card">
+    <header>
+      <h1>🐱 Cat Kind Classifier</h1>
+      <p class="subtitle">Drop a photo and I'll guess what kind of cat it is.</p>
+    </header>
+
+    <label id="drop-zone" class="drop-zone" for="file-input">
+      <input id="file-input" type="file" accept="image/*" hidden>
+      <div id="drop-hint" class="drop-hint">
+        <span class="drop-icon" aria-hidden="true">🐾</span>
+        <strong>Drag &amp; drop a photo here</strong>
+        <span>or click to choose a file</span>
+      </div>
+      <img id="preview" class="preview" alt="Selected photo" hidden>
+    </label>
+
+    <button id="classify-button" class="classify-button" type="button" disabled>Classify</button>
+
+    <div id="loading" class="loading" hidden>
+      <div class="paws" aria-hidden="true"><span>🐾</span><span>🐾</span><span>🐾</span></div>
+      <p>Looking closely at the whiskers…</p>
+    </div>
+
+    <p id="error" class="error" role="alert" hidden></p>
+
+    <section id="result" class="result" hidden aria-live="polite">
+      <div id="cat-result" hidden>
+        <p class="result-label">It looks like a</p>
+        <p id="cat-kind" class="cat-kind"></p>
+        <p id="cat-confidence" class="cat-confidence"></p>
+        <h2>Cat kinds</h2>
+        <p class="hint">Share of each kind among the five cat classes</p>
+        <ul id="bars" class="bars"></ul>
+      </div>
+      <div id="not-cat-result" hidden>
+        <p class="not-cat">This doesn't look like a cat 🤔</p>
+        <h2>What the model sees</h2>
+        <ol id="top3" class="top3"></ol>
+      </div>
+    </section>
+  </main>
+
+  <footer>ResNet-50 (ImageNet) served with Cog</footer>
+  <script src="script.js"></script>
+</body>
+</html>

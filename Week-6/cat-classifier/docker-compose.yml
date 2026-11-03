@@ -1,0 +1,18 @@
+services:
+  # Cog model server (image built with: cog build -t cat-classifier)
+  cog:
+    image: cat-classifier
+    container_name: cat-cog
+    ports:
+      - "5002:5000"
+
+  # Flask web front end; talks to the cog service over the compose network
+  web:
+    build: ./web
+    container_name: cat-web
+    ports:
+      - "5003:5000"
+    environment:
+      COG_URL: http://cog:5000
+    depends_on:
+      - cog

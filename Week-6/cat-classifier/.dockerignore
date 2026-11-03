@@ -1,0 +1,7 @@
+# Local-only files that the model does not need at runtime.
+# hub/ is NOT listed: the ResNet-50 weights must be baked into the image.
+venv/
+__pycache__/
+web/
+*.json
+postman/
