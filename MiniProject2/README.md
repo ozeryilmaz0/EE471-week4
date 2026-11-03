@@ -63,6 +63,11 @@ winget install --id Gyan.FFmpeg -e --scope user
 ffmpeg -version
 ```
 
+When the server starts it prints the ffmpeg it found (` * ffmpeg: ...`). If a
+terminal was opened before the install, the app still finds ffmpeg through
+the PATH saved in the registry or the winget folder. You can also point to it
+directly with the `FFMPEG_PATH` environment variable.
+
 Create your `.env` from the template and put your Azure Speech key in it:
 
 ```powershell
@@ -141,7 +146,9 @@ POST /api/voice/text     {"text": "check out item 4"}
 }
 ```
 
-`status` is `422` when no speech was recognized, and `null` for "help" and
+`status` is `422` when no speech was recognized or the recording is empty or
+shorter than 0.5 s ("I didn't hear anything"), `500` when ffmpeg or Azure
+fails (the full traceback is printed in the server console), and `null` for "help" and
 unknown commands (no API call is made).
 
 ## Tests

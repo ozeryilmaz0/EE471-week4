@@ -176,9 +176,15 @@ async function startRecording() {
     stream.getTracks().forEach((track) => track.stop());
     const type = recorder.mimeType || "audio/webm";
     const extension = type.includes("ogg") ? "ogg" : type.includes("mp4") ? "mp4" : "webm";
-    const form = new FormData();
-    form.append("audio", new Blob(chunks, { type }), `recording.${extension}`);
+    const blob = new Blob(chunks, { type });
     recorder = null;
+    // "dataavailable" always fires before "stop", so all chunks are here now.
+    if (blob.size === 0) {
+      micStatus.textContent = "I didn't hear anything. Please try again.";
+      return;
+    }
+    const form = new FormData();
+    form.append("audio", blob, `recording.${extension}`);
     sendCommand("/api/voice", { method: "POST", body: form });
   });
 

@@ -7,12 +7,15 @@ REST routes (through app.test_client()), so they follow the same rules.
 """
 
 import base64
+import traceback
 from urllib.parse import urlencode
 
 from flask import Flask, jsonify, request
 from werkzeug.exceptions import HTTPException
 
 from speech_service import (
+    FFMPEG,
+    NoSpeechError,
     SpeechError,
     convert_to_wav,
     remove_file,
@@ -249,8 +252,13 @@ def voice_audio():
     try:
         wav_path = convert_to_wav(audio)
         transcript = transcribe(wav_path, current_phrases())
+    except NoSpeechError as error:
+        app.logger.info("Nothing to recognize: %s", error)
+        return voice_reply("", status=422, result={"error": str(error)},
+                           message="I didn't hear anything. Please try again.")
     except SpeechError as error:
-        app.logger.warning("Speech recognition failed: %s", error)
+        app.logger.error("Speech recognition failed: %s", error)
+        traceback.print_exc()
         return voice_reply("", status=500, result={"error": str(error)},
                            message="Sorry, speech recognition is not working right now.")
     finally:
@@ -259,9 +267,10 @@ def voice_audio():
 
     if not transcript:
         return voice_reply("", status=422,
-                           message="Sorry, I couldn't hear a command. Please try again.")
+                           message="I didn't hear anything. Please try again.")
     return handle_text_command(transcript)
 
 
 if __name__ == "__main__":
+    print(f" * ffmpeg: {FFMPEG or 'NOT FOUND - voice commands will fail'}")
     app.run(host="127.0.0.1", port=5000, debug=True)
