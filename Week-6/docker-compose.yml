@@ -1,0 +1,16 @@
+services:
+  # Week 5 Task 1: speech studio (TTS, STT, diarization, translation, pronunciation)
+  speech-studio:
+    build: ../Week-5-Task-1
+    container_name: speech-studio
+    ports:
+      - "5000:5000"
+    env_file: ../.env
+
+  # Week 5 Task 2: voice-activated calculator
+  voice-calculator:
+    build: ../Week-5-Task-2
+    container_name: voice-calculator
+    ports:
+      - "5001:5000"
+    env_file: ../.env
