@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Library</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="page-header">
+    <h1>📚 Library</h1>
+    <p class="subtitle">Books and DVDs, now with a voice librarian.</p>
+  </header>
+
+  <main>
+    <section class="panel voice-panel" aria-labelledby="voice-title">
+      <h2 id="voice-title">🎙 Voice Librarian</h2>
+
+      <div class="mic-area">
+        <button id="mic-button" class="mic-button" type="button" aria-label="Start recording">
+          <span class="mic-icon" aria-hidden="true">🎙</span>
+        </button>
+        <p id="mic-status" class="mic-status">Click the microphone and say a command.</p>
+      </div>
+
+      <form id="text-form" class="text-form">
+        <label for="text-input" class="visually-hidden">Type a command</label>
+        <input id="text-input" type="text" autocomplete="off"
+               placeholder="Type a command, e.g. check out item 1">
+        <button type="submit">Send</button>
+      </form>
+
+      <div id="result-card" class="result-card" hidden>
+        <div class="result-row">
+          <span class="label">You said</span>
+          <span id="result-transcript" class="value"></span>
+        </div>
+        <div class="result-row">
+          <span class="label">API call</span>
+          <code id="result-api" class="value"></code>
+          <span id="result-status" class="badge"></span>
+        </div>
+        <div class="result-row librarian">
+          <span class="label">Librarian</span>
+          <span id="result-message" class="value"></span>
+          <button id="replay-button" class="link-button" type="button" hidden>▶ Replay</button>
+        </div>
+      </div>
+
+      <details class="help-box">
+        <summary>Voice commands</summary>
+        <ul>
+          <li><b>help</b></li>
+          <li><b>list items</b> · <b>list available books</b> · <b>show DVDs</b> · <b>list checked out items</b></li>
+          <li><b>get item 3</b> · <b>tell me about item three</b></li>
+          <li><b>check out item 3</b> · <b>borrow item 3</b></li>
+          <li><b>return item 3</b> · <b>give back item 3</b></li>
+          <li><b>delete item 3</b> · <b>remove item 3</b></li>
+          <li><b>create item, type book, title Dune, author Frank Herbert, pages 412</b></li>
+          <li><b>add a DVD, title Arrival, director Denis Villeneuve, duration 116</b></li>
+          <li><b>update item 3, pages 250</b> · <b>change item 3, title Animal Farm</b></li>
+          <li><b>replace item 3, title Dune, author Frank Herbert, pages 412</b></li>
+        </ul>
+      </details>
+
+      <div class="history">
+        <h3>Recent commands</h3>
+        <ol id="history-list" class="history-list">
+          <li class="empty">No commands yet.</li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="panel" aria-labelledby="items-title">
+      <div class="panel-heading">
+        <h2 id="items-title">Items</h2>
+        <button id="refresh-button" type="button" class="secondary">Refresh</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th><th>Type</th><th>Title</th><th>Author / Director</th>
+              <th>Details</th><th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="items-body">
+            <tr><td colspan="6" class="empty">Loading…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <audio id="reply-audio"></audio>
+  <script src="script.js"></script>
+</body>
+</html>

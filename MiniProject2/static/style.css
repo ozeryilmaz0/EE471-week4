@@ -1,0 +1,242 @@
+:root {
+  --bg: #f4f1ea;
+  --panel: #ffffff;
+  --text: #2b2a27;
+  --muted: #6b675f;
+  --border: #e2ddd2;
+  --accent: #2f5d8a;
+  --accent-dark: #234a70;
+  --ok: #2e7d4f;
+  --ok-bg: #e3f3e9;
+  --err: #b3261e;
+  --err-bg: #fbe5e3;
+  --neutral-bg: #ecebe7;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+}
+
+.page-header {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 28px 16px 8px;
+}
+
+.page-header h1 { margin: 0; font-size: 1.9rem; }
+.subtitle { margin: 4px 0 0; color: var(--muted); }
+
+main {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 8px 16px 40px;
+  display: grid;
+  gap: 20px;
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.panel h2 { margin: 0 0 12px; font-size: 1.25rem; }
+
+.panel-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.panel-heading h2 { margin: 0; }
+
+button {
+  font: inherit;
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  background: var(--accent);
+  color: #fff;
+}
+
+button:hover { background: var(--accent-dark); }
+
+button.secondary {
+  background: var(--neutral-bg);
+  color: var(--text);
+}
+
+button.secondary:hover { background: var(--border); }
+
+button:disabled { opacity: 0.6; cursor: wait; }
+
+/* ---------- Microphone ---------- */
+
+.mic-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin: 8px 0 16px;
+}
+
+.mic-button {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  padding: 0;
+  font-size: 2.4rem;
+  background: var(--accent);
+  box-shadow: 0 4px 12px rgba(47, 93, 138, 0.35);
+  transition: background 0.2s, transform 0.1s;
+}
+
+.mic-button:active { transform: scale(0.96); }
+
+.mic-button.recording {
+  background: var(--err);
+  animation: pulse 1.2s infinite;
+}
+
+.mic-button.busy { background: var(--muted); }
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(179, 38, 30, 0.55); }
+  70% { box-shadow: 0 0 0 22px rgba(179, 38, 30, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(179, 38, 30, 0); }
+}
+
+.mic-status { margin: 0; color: var(--muted); text-align: center; }
+
+/* ---------- Typed command ---------- */
+
+.text-form { display: flex; gap: 8px; }
+
+.text-form input {
+  flex: 1;
+  min-width: 0;
+  font: inherit;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.text-form input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+/* ---------- Result card ---------- */
+
+.result-card {
+  margin-top: 16px;
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #faf8f4;
+  display: grid;
+  gap: 8px;
+}
+
+.result-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.result-row .label {
+  width: 80px;
+  flex-shrink: 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
+.result-row .value { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.result-row code { font-family: Consolas, monospace; }
+.librarian .value { font-weight: 600; }
+
+.badge {
+  display: inline-block;
+  padding: 1px 10px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  background: var(--neutral-bg);
+  color: var(--muted);
+}
+
+.badge.ok { background: var(--ok-bg); color: var(--ok); }
+.badge.error { background: var(--err-bg); color: var(--err); }
+
+.link-button {
+  background: none;
+  color: var(--accent);
+  padding: 0 4px;
+}
+
+.link-button:hover { background: none; text-decoration: underline; }
+
+/* ---------- Help and history ---------- */
+
+.help-box {
+  margin-top: 16px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 16px;
+}
+
+.help-box summary { cursor: pointer; font-weight: 600; }
+.help-box ul { margin: 10px 0 4px; padding-left: 20px; }
+.help-box li { margin: 4px 0; }
+
+.history h3 { margin: 16px 0 6px; font-size: 1rem; }
+
+.history-list { margin: 0; padding-left: 20px; }
+.history-list li { margin: 4px 0; }
+.history-list .empty { list-style: none; margin-left: -20px; color: var(--muted); }
+.history-list .badge { margin-right: 6px; font-size: 0.75rem; }
+.history-list .said { font-style: italic; }
+
+/* ---------- Items table ---------- */
+
+.table-wrap { overflow-x: auto; }
+
+table { width: 100%; border-collapse: collapse; }
+
+th, td {
+  text-align: left;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+th { font-size: 0.85rem; color: var(--muted); }
+td.empty { color: var(--muted); text-align: center; }
+
+.status-pill { font-weight: 600; }
+.status-pill.available { color: var(--ok); }
+.status-pill.out { color: var(--err); }
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
+@media (max-width: 560px) {
+  .result-row .label { width: 100%; }
+  .page-header h1 { font-size: 1.5rem; }
+}
