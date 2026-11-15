@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Classifier</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="page">
+    <header>
+      <h1 id="title">Image Classifier</h1>
+      <p class="subtitle">One image, two models: the tutorial baseline and the HPO-optimized model.</p>
+    </header>
+
+    <section class="panel upload-panel">
+      <label id="drop-zone" class="drop-zone" for="file-input">
+        <input id="file-input" type="file" accept="image/*" hidden>
+        <div id="drop-hint" class="drop-hint">
+          <span class="drop-icon" aria-hidden="true">🖼️</span>
+          <strong>Drag &amp; drop an image here</strong>
+          <span>or click to choose a file</span>
+        </div>
+        <img id="preview" class="preview" alt="Selected image" hidden>
+      </label>
+      <p id="file-name" class="file-name" hidden></p>
+      <button id="classify-button" class="classify-button" type="button" disabled>Classify</button>
+      <p id="error" class="error" role="alert" hidden></p>
+    </section>
+
+    <div id="verdict" class="verdict" hidden aria-live="polite"></div>
+
+    <section class="compare" aria-live="polite">
+      <article class="panel model-card" id="card-baseline">
+        <div class="model-head">
+          <h2>Baseline (Tutorial)</h2>
+          <span class="tag">test acc <b data-field="accuracy">–</b></span>
+        </div>
+        <div class="model-body" data-field="body">
+          <p class="placeholder">Waiting for an image…</p>
+        </div>
+      </article>
+      <article class="panel model-card" id="card-optimized">
+        <div class="model-head">
+          <h2>Optimized (HPO)</h2>
+          <span class="tag">test acc <b data-field="accuracy">–</b></span>
+        </div>
+        <div class="model-body" data-field="body">
+          <p class="placeholder">Waiting for an image…</p>
+        </div>
+      </article>
+    </section>
+
+    <section class="panel samples-panel">
+      <h2>Try a sample</h2>
+      <p class="hint">Images from the test set. Click one to classify it with both models.</p>
+      <div id="samples" class="samples"></div>
+    </section>
+  </main>
+
+  <footer>PyTorch models served with Cog · Flask front end</footer>
+  <script src="script.js"></script>
+</body>
+</html>

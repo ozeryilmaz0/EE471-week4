@@ -1,0 +1,36 @@
+# Fashion-MNIST: baseline and optimized Cog models + the comparison website.
+# Build the model images first (Ubuntu / WSL):
+#   cd fashion-mnist/cog-baseline  && cog build --use-cog-base-image=false -t fashion-baseline
+#   cd fashion-mnist/cog-optimized && cog build --use-cog-base-image=false -t fashion-optimized
+# Then: docker compose -f docker-compose.fashion.yml up -d --build
+name: fashion
+
+services:
+  fashion-baseline:
+    image: fashion-baseline
+    container_name: fashion-baseline
+    ports:
+      - "5010:5000"
+
+  fashion-optimized:
+    image: fashion-optimized
+    container_name: fashion-optimized
+    ports:
+      - "5011:5000"
+
+  fashion-web:
+    build: ./web
+    image: classifier-web
+    container_name: fashion-web
+    ports:
+      - "5012:5000"
+    environment:
+      APP_TITLE: "Garment Classifier 👕"
+      BASELINE_URL: http://fashion-baseline:5000
+      OPTIMIZED_URL: http://fashion-optimized:5000
+      SAMPLES_DIR: /samples
+    volumes:
+      - ./fashion-mnist/sample_images:/samples:ro
+    depends_on:
+      - fashion-baseline
+      - fashion-optimized

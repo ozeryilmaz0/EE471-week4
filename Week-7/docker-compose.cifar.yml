@@ -1,0 +1,36 @@
+# CIFAR-10: baseline and optimized Cog models + the comparison website.
+# Build the model images first (Ubuntu / WSL):
+#   cd cifar10/cog-baseline  && cog build --use-cog-base-image=false -t cifar-baseline
+#   cd cifar10/cog-optimized && cog build --use-cog-base-image=false -t cifar-optimized
+# Then: docker compose -f docker-compose.cifar.yml up -d --build
+name: cifar
+
+services:
+  cifar-baseline:
+    image: cifar-baseline
+    container_name: cifar-baseline
+    ports:
+      - "5020:5000"
+
+  cifar-optimized:
+    image: cifar-optimized
+    container_name: cifar-optimized
+    ports:
+      - "5021:5000"
+
+  cifar-web:
+    build: ./web
+    image: classifier-web
+    container_name: cifar-web
+    ports:
+      - "5022:5000"
+    environment:
+      APP_TITLE: "CIFAR-10 Classifier 🚗"
+      BASELINE_URL: http://cifar-baseline:5000
+      OPTIMIZED_URL: http://cifar-optimized:5000
+      SAMPLES_DIR: /samples
+    volumes:
+      - ./cifar10/sample_images:/samples:ro
+    depends_on:
+      - cifar-baseline
+      - cifar-optimized

@@ -1,0 +1,169 @@
+{
+  "info": {
+    "name": "Week 7 - Fashion-MNIST (Cog)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Start the containers with docker compose -f docker-compose.fashion.yml up -d, then Send each request."
+  },
+  "item": [
+    {
+      "name": "fashion-baseline health-check",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Model is READY\", () => pm.expect(pm.response.json().status).to.eql(\"READY\"));"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5010/health-check",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5010",
+          "path": [
+            "health-check"
+          ]
+        }
+      }
+    },
+    {
+      "name": "fashion-optimized health-check",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Model is READY\", () => pm.expect(pm.response.json().status).to.eql(\"READY\"));"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5011/health-check",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5011",
+          "path": [
+            "health-check"
+          ]
+        }
+      }
+    },
+    {
+      "name": "fashion-baseline predict",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));",
+              "const body = pm.response.json();",
+              "pm.test(\"Prediction succeeded\", () => pm.expect(body.status).to.eql(\"succeeded\"));",
+              "pm.test(\"Has predicted_class and top3\", () => {",
+              "    pm.expect(body.output).to.have.property(\"predicted_class\");",
+              "    pm.expect(Object.keys(body.output.top3)).to.have.lengthOf(3);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"input\": {\n    \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIwAAACMCAAAAACLqx7iAAAC4klEQVR4nO2aO2sUcRTFz97dZM3DqMRHVPBRaNAgVuILO9E+2Nhq4wfwS9j6RQQLbfwENoqVYKOoSESNyboxiZuMnH9xhokBGx8n4f6KH8PM7Gb2cubunX8WSJIkSZIkSZIkSZIkSZLkN7Twd2lT61SlfV1qhTpBvdKBgBEBIwJGBIzo/JlboKWcHqYuUo+p/iavKNktzFL3PCsTMCJgRGBbBRjKbuEKdZ46RN3Hr+ynrlM948oEjAgYEdhWAW5TA+ocdYqa03zwgPpCjVBvqElqgnpnXJmAEQEjAtslwKHsjlE3NB/soHZqtghtzVBvqflN/rpVZQJGBIwIbJ0At/T4Fdqq1HfXdN4d9d1l6qhSPNd8kisj8ao6cFfh79tVJmBEwIiAe4BbzbBumHI3ZPcmNUU90xvupj5retirhlxeW1dhVKPGc+1zIWBEwIiAe4Cr5rWGEls1s3uLOqmpYFLhL/Pue8W2hH9JXbm+P6DHuQzw1slMwDPAoa2quTJWN19odWFWOS3LuOMaCCY1JFTqsVDuV7TV1ztf3uQKDAgYETAiYESnHgg25LTS1j7qGDVNHVREFzUulIl2SCle1yBc9n2lfuhAKcB3qq21tBm7ygSMCBgRMKJTDwQHlLoxqfTY42qlJYTf9CF26ZSBTllSox2mPui8Ua09lHa9R214So3bqjIBIwJGBOxGiKsaDQZquW1qTft6it6UBoyuMhk62lYwS9AX9J+Lmnn14hG9y8CuMgEjAkYEjOhco29TL9Uxe7rMVWWypQPDyl+90juifUPKeOnop/WK+mP31ZCXFfSPzVMMCBgRMCJgROcpfYE603yiGiixX6QFxbGl7/1pxXFCo/NZ6gX1Wg2+2xysB1qoWNS9YFWZgBEBIwLGv0Yb108ZpqlLmigmNBfXq2DrSnbp3k+oR+qsNQ+pI9Qn3RU9pbgMzHftKhMwImBE/O8LSJIkSZIkSZIkSZIkwT/nJ1hRiCvzBsrTAAAAAElFTkSuQmCC\"\n  }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:5010/predictions",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5010",
+          "path": [
+            "predictions"
+          ]
+        },
+        "description": "Body contains sample_images/09_ankle_boot_1.png as a base64 data URI."
+      }
+    },
+    {
+      "name": "fashion-optimized predict",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));",
+              "const body = pm.response.json();",
+              "pm.test(\"Prediction succeeded\", () => pm.expect(body.status).to.eql(\"succeeded\"));",
+              "pm.test(\"Has predicted_class and top3\", () => {",
+              "    pm.expect(body.output).to.have.property(\"predicted_class\");",
+              "    pm.expect(Object.keys(body.output.top3)).to.have.lengthOf(3);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"input\": {\n    \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIwAAACMCAAAAACLqx7iAAAC4klEQVR4nO2aO2sUcRTFz97dZM3DqMRHVPBRaNAgVuILO9E+2Nhq4wfwS9j6RQQLbfwENoqVYKOoSESNyboxiZuMnH9xhokBGx8n4f6KH8PM7Gb2cubunX8WSJIkSZIkSZIkSZIkSZLkN7Twd2lT61SlfV1qhTpBvdKBgBEBIwJGBIzo/JlboKWcHqYuUo+p/iavKNktzFL3PCsTMCJgRGBbBRjKbuEKdZ46RN3Hr+ynrlM948oEjAgYEdhWAW5TA+ocdYqa03zwgPpCjVBvqElqgnpnXJmAEQEjAtslwKHsjlE3NB/soHZqtghtzVBvqflN/rpVZQJGBIwIbJ0At/T4Fdqq1HfXdN4d9d1l6qhSPNd8kisj8ao6cFfh79tVJmBEwIiAe4BbzbBumHI3ZPcmNUU90xvupj5retirhlxeW1dhVKPGc+1zIWBEwIiAe4Cr5rWGEls1s3uLOqmpYFLhL/Pue8W2hH9JXbm+P6DHuQzw1slMwDPAoa2quTJWN19odWFWOS3LuOMaCCY1JFTqsVDuV7TV1ztf3uQKDAgYETAiYESnHgg25LTS1j7qGDVNHVREFzUulIl2SCle1yBc9n2lfuhAKcB3qq21tBm7ygSMCBgRMKJTDwQHlLoxqfTY42qlJYTf9CF26ZSBTllSox2mPui8Ua09lHa9R214So3bqjIBIwJGBOxGiKsaDQZquW1qTft6it6UBoyuMhk62lYwS9AX9J+Lmnn14hG9y8CuMgEjAkYEjOhco29TL9Uxe7rMVWWypQPDyl+90juifUPKeOnop/WK+mP31ZCXFfSPzVMMCBgRMCJgROcpfYE603yiGiixX6QFxbGl7/1pxXFCo/NZ6gX1Wg2+2xysB1qoWNS9YFWZgBEBIwLGv0Yb108ZpqlLmigmNBfXq2DrSnbp3k+oR+qsNQ+pI9Qn3RU9pbgMzHftKhMwImBE/O8LSJIkSZIkSZIkSZIkwT/nJ1hRiCvzBsrTAAAAAElFTkSuQmCC\"\n  }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:5011/predictions",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5011",
+          "path": [
+            "predictions"
+          ]
+        },
+        "description": "Body contains sample_images/09_ankle_boot_1.png as a base64 data URI."
+      }
+    }
+  ]
+}
