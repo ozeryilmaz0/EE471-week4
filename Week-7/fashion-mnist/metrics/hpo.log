@@ -1,0 +1,53 @@
+﻿Using cuda device
+Train 54000, validation 6000
+..\..\venv\Scripts\python.exe : [I 2026-11-15 12:42:06,135] A new study created in memory with name: fashion-mnist
+At line:1 char:368
++ ... hion-mnist; ..\..\venv\Scripts\python.exe -u hpo.py *> metrics\hpo.lo ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ([I 2026-11-15 1...: fashion-mnist:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+[I 2026-11-15 12:42:32,150] Trial 0 finished with value: 0.8403333333333334 and parameters: {'optimizer': 'Adam', 'lr':
+ 0.006251373574521752, 'batch_size': 256, 'hidden_size': 1024, 'dropout': 0.41622132040021087, 'weight_decay': 4.335281
+794951567e-06}. Best is trial 0 with value: 0.8403333333333334.
+[I 2026-11-15 12:42:58,146] Trial 1 finished with value: 0.8613333333333333 and parameters: {'optimizer': 'AdamW', 'lr'
+: 0.0037520558551242854, 'batch_size': 128, 'hidden_size': 1024, 'dropout': 0.09983689107917987, 'weight_decay': 3.4890
+18845491386e-05}. Best is trial 1 with value: 0.8613333333333333.
+[I 2026-11-15 12:43:28,512] Trial 2 finished with value: 0.864 and parameters: {'optimizer': 'AdamW', 'lr': 0.000324767
+35706274504, 'batch_size': 128, 'hidden_size': 512, 'dropout': 0.06101911742238941, 'weight_decay': 3.058656666978529e-
+05}. Best is trial 2 with value: 0.864.
+[I 2026-11-15 12:43:57,417] Trial 3 finished with value: 0.8345 and parameters: {'optimizer': 'Adam', 'lr': 0.009717775
+305059635, 'batch_size': 128, 'hidden_size': 128, 'dropout': 0.29894998940554257, 'weight_decay': 0.0005829384542994739
+}. Best is trial 2 with value: 0.864.
+[I 2026-11-15 12:44:25,324] Trial 4 finished with value: 0.8643333333333333 and parameters: {'optimizer': 'Adam', 'lr':
+ 0.0009462175356461491, 'batch_size': 128, 'hidden_size': 1024, 'dropout': 0.03727532183988541, 'weight_decay': 0.00091
+33995846860973}. Best is trial 4 with value: 0.8643333333333333.
+[I 2026-11-15 12:44:53,808] Trial 5 pruned. 
+[I 2026-11-15 12:45:17,175] Trial 6 pruned. 
+[I 2026-11-15 12:45:40,706] Trial 7 pruned. 
+[I 2026-11-15 12:46:03,046] Trial 8 pruned. 
+[I 2026-11-15 12:46:28,388] Trial 9 pruned. 
+[I 2026-11-15 12:46:56,991] Trial 10 finished with value: 0.8701666666666666 and parameters: {'optimizer': 'Adam', 'lr'
+: 0.0004404801720505973, 'batch_size': 128, 'hidden_size': 1024, 'dropout': 0.013643671070085815, 'weight_decay': 1.624
+9573510366662e-06}. Best is trial 10 with value: 0.8701666666666666.
+[I 2026-11-15 12:47:21,625] Trial 11 finished with value: 0.8646666666666667 and parameters: {'optimizer': 'Adam', 'lr'
+: 0.00013547376421331998, 'batch_size': 128, 'hidden_size': 1024, 'dropout': 0.1499400549248825, 'weight_decay': 0.0001
+6854307339504335}. Best is trial 10 with value: 0.8701666666666666.
+[I 2026-11-15 12:47:45,813] Trial 12 pruned. 
+[I 2026-11-15 12:48:09,567] Trial 13 pruned. 
+[I 2026-11-15 12:48:28,706] Trial 14 pruned. 
+[I 2026-11-15 12:48:53,849] Trial 15 pruned. 
+[I 2026-11-15 12:49:17,922] Trial 16 finished with value: 0.8656666666666667 and parameters: {'optimizer': 'Adam', 'lr'
+: 0.00035642839504876345, 'batch_size': 128, 'hidden_size': 1024, 'dropout': 0.18342624694533766, 'weight_decay': 3.445
+7284835703894e-06}. Best is trial 10 with value: 0.8701666666666666.
+[I 2026-11-15 12:49:42,379] Trial 17 finished with value: 0.867 and parameters: {'optimizer': 'Adam', 'lr': 0.000568920
+3687462793, 'batch_size': 128, 'hidden_size': 1024, 'dropout': 0.0922539321408509, 'weight_decay': 1.216278933222714e-0
+6}. Best is trial 10 with value: 0.8701666666666666.
+[I 2026-11-15 12:49:58,063] Trial 18 pruned. 
+[I 2026-11-15 12:50:34,691] Trial 19 finished with value: 0.8753333333333333 and parameters: {'optimizer': 'Adam', 'lr'
+: 0.00016067029747290277, 'batch_size': 32, 'hidden_size': 1024, 'dropout': 0.12008112761222367, 'weight_decay': 1.3165
+560608311025e-06}. Best is trial 19 with value: 0.8753333333333333.
+Best trial 19: val accuracy 0.8753
+Best params: {'optimizer': 'Adam', 'lr': 0.00016067029747290277, 'batch_size': 32, 'hidden_size': 1024, 'dropout': 0.12008112761222367, 'weight_decay': 1.3165560608311025e-06}
+Importances: {'dropout': 0.3432, 'lr': 0.3104, 'batch_size': 0.136, 'hidden_size': 0.1197, 'weight_decay': 0.0906, 'optimizer': 0.0002}
+HPO time 508.6s

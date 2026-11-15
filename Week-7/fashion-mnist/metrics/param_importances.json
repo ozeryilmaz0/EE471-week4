@@ -1,0 +1,8 @@
+{
+  "dropout": 0.3432,
+  "lr": 0.3104,
+  "batch_size": 0.136,
+  "hidden_size": 0.1197,
+  "weight_decay": 0.0906,
+  "optimizer": 0.0002
+}

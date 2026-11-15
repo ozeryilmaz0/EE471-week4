@@ -1,0 +1,18 @@
+{
+  "best_trial": 19,
+  "best_val_accuracy": 0.8753,
+  "params": {
+    "optimizer": "Adam",
+    "lr": 0.00016067029747290277,
+    "batch_size": 32,
+    "hidden_size": 1024,
+    "dropout": 0.12008112761222367,
+    "weight_decay": 1.3165560608311025e-06
+  },
+  "n_trials": 20,
+  "n_complete": 10,
+  "n_pruned": 10,
+  "epochs_per_trial": 3,
+  "hpo_time_sec": 508.6,
+  "device": "cuda"
+}
