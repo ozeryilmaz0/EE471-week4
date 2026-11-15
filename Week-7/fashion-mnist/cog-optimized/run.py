@@ -33,16 +33,29 @@ def make_logger():
     return logger
 
 
+def background_mean(img):
+    """Mean brightness of a frame along the image border (where the background is)."""
+    w, h = img.size
+    b = max(1, min(w, h) // 20)
+    strips = [img.crop(box) for box in ((0, 0, w, b), (0, h - b, w, h),
+                                        (0, 0, b, h), (w - b, 0, w, h))]
+    total = sum(s.width * s.height for s in strips)
+    return sum(ImageStat.Stat(s).mean[0] * s.width * s.height for s in strips) / total
+
+
 def preprocess(img):
     """Turn any photo into a 1x1x28x28 tensor that looks like Fashion-MNIST.
 
     Fashion-MNIST shows light garments on a black background, so a photo with a
-    light background (mean > 127) is inverted first.
+    light background (border mean > 127) is inverted first. The border is used
+    instead of the whole image so that a big, bright garment on black is not inverted.
     """
     img = img.convert("L")
-    if ImageStat.Stat(img).mean[0] > 127:
+    if background_mean(img) > 127:
         img = ImageOps.invert(img)
-    img = ImageOps.pad(img, (28, 28), color=0)  # keep the aspect ratio, pad with black
+    # Keep the aspect ratio and pad with black. BOX (area average) is anti-aliased for
+    # photos and gives back the exact pixels of the 5x upscaled sample images.
+    img = ImageOps.pad(img, (28, 28), method=Image.Resampling.BOX, color=0)
     return ToTensor()(img).unsqueeze(0)
 
 
