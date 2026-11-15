@@ -1,0 +1,11 @@
+{
+  "model_name": "cifar-optimized",
+  "architecture": "CifarCNN",
+  "kwargs": {
+    "width": 64,
+    "dropout": 0.12428485684878636,
+    "batchnorm": true
+  },
+  "test_accuracy": 0.8107,
+  "weights": "optimized.pth"
+}

@@ -1,0 +1,75 @@
+﻿Using cuda device
+..\..\venv\Scripts\python.exe : [I 2026-11-15 12:58:44,086] A new study created in memory with name: cifar10
+At line:1 char:362
++ ... -7\cifar10; ..\..\venv\Scripts\python.exe -u hpo.py *> metrics\hpo.lo ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ([I 2026-11-15 1...h name: cifar10:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  trial 0 epoch 1: val accuracy 0.0986 (48s)
+  trial 0 epoch 2: val accuracy 0.1060 (18s)
+  trial 0 epoch 3: val accuracy 0.0956 (24s)
+[I 2026-11-15 13:00:20,609] Trial 0 finished with value: 0.0956 and parameters: {'width': 32, 'dropout': 0.299329242098
+5183, 'batchnorm': True, 'augment': False, 'optimizer': 'Adam', 'lr': 0.0812324508558869, 'batch_size': 32, 'weight_dec
+ay': 8.179499475211674e-06}. Best is trial 0 with value: 0.0956.
+  trial 1 epoch 1: val accuracy 0.1746 (42s)
+  trial 1 epoch 2: val accuracy 0.4084 (8s)
+  trial 1 epoch 3: val accuracy 0.4690 (9s)
+[I 2026-11-15 13:01:25,204] Trial 1 finished with value: 0.469 and parameters: {'width': 16, 'dropout': 0.3059264473611
+8974, 'batchnorm': False, 'augment': False, 'optimizer': 'SGD', 'lr': 0.005987474910461402, 'batch_size': 64, 'weight_d
+ecay': 0.0007025166339242157}. Best is trial 1 with value: 0.469.
+  trial 2 epoch 1: val accuracy 0.4750 (31s)
+  trial 2 epoch 2: val accuracy 0.4372 (7s)
+  trial 2 epoch 3: val accuracy 0.5978 (8s)
+[I 2026-11-15 13:02:16,521] Trial 2 finished with value: 0.5978 and parameters: {'width': 16, 'dropout': 0.048836057003
+191935, 'batchnorm': True, 'augment': False, 'optimizer': 'Adam', 'lr': 0.009717775305059635, 'batch_size': 128, 'weigh
+t_decay': 0.0008105016126411582}. Best is trial 2 with value: 0.5978.
+  trial 3 epoch 1: val accuracy 0.2280 (44s)
+  trial 3 epoch 2: val accuracy 0.2150 (19s)
+  trial 3 epoch 3: val accuracy 0.2992 (23s)
+[I 2026-11-15 13:03:46,314] Trial 3 finished with value: 0.2992 and parameters: {'width': 32, 'dropout': 0.298949989405
+54257, 'batchnorm': True, 'augment': True, 'optimizer': 'Adam', 'lr': 0.030634622106220845, 'batch_size': 128, 'weight_
+decay': 0.0002550298070162893}. Best is trial 2 with value: 0.5978.
+  trial 4 epoch 1: val accuracy 0.0956 (37s)
+  trial 4 epoch 2: val accuracy 0.0956 (15s)
+[I 2026-11-15 13:04:41,011] Trial 4 pruned. 
+  trial 5 epoch 1: val accuracy 0.6734 (50s)
+  trial 5 epoch 2: val accuracy 0.6540 (35s)
+  trial 5 epoch 3: val accuracy 0.7294 (46s)
+[I 2026-11-15 13:07:17,348] Trial 5 finished with value: 0.7294 and parameters: {'width': 64, 'dropout': 0.124284856848
+78636, 'batchnorm': True, 'augment': False, 'optimizer': 'Adam', 'lr': 0.00014863270925619807, 'batch_size': 128, 'weig
+ht_decay': 0.0005533128224142919}. Best is trial 5 with value: 0.7294.
+  trial 6 epoch 1: val accuracy 0.6104 (70s)
+  trial 6 epoch 2: val accuracy 0.6198 (47s)
+  trial 6 epoch 3: val accuracy 0.6808 (63s)
+[I 2026-11-15 13:10:22,622] Trial 6 finished with value: 0.6808 and parameters: {'width': 64, 'dropout': 0.436180890130
+64226, 'batchnorm': True, 'augment': False, 'optimizer': 'Adam', 'lr': 0.0012163727759263022, 'batch_size': 128, 'weigh
+t_decay': 3.347326325269022e-05}. Best is trial 5 with value: 0.7294.
+  trial 7 epoch 1: val accuracy 0.5584 (35s)
+  trial 7 epoch 2: val accuracy 0.6038 (8s)
+  trial 7 epoch 3: val accuracy 0.6382 (11s)
+[I 2026-11-15 13:11:20,804] Trial 7 finished with value: 0.6382 and parameters: {'width': 16, 'dropout': 0.035045260425
+19204, 'batchnorm': True, 'augment': False, 'optimizer': 'Adam', 'lr': 0.00012646809828566693, 'batch_size': 128, 'weig
+ht_decay': 2.6727463495116254e-06}. Best is trial 5 with value: 0.7294.
+  trial 8 epoch 1: val accuracy 0.3172 (77s)
+  trial 8 epoch 2: val accuracy 0.3594 (55s)
+[I 2026-11-15 13:13:35,038] Trial 8 pruned. 
+  trial 9 epoch 1: val accuracy 0.4902 (89s)
+  trial 9 epoch 2: val accuracy 0.5700 (58s)
+  trial 9 epoch 3: val accuracy 0.6130 (63s)
+[I 2026-11-15 13:17:33,099] Trial 9 finished with value: 0.613 and parameters: {'width': 64, 'dropout': 0.1129624639737
+2708, 'batchnorm': True, 'augment': True, 'optimizer': 'SGD', 'lr': 0.00039609835917911327, 'batch_size': 128, 'weight_
+decay': 0.00024690122620187814}. Best is trial 5 with value: 0.7294.
+  trial 10 epoch 1: val accuracy 0.5160 (47s)
+  trial 10 epoch 2: val accuracy 0.5832 (10s)
+  trial 10 epoch 3: val accuracy 0.6252 (13s)
+[I 2026-11-15 13:18:50,153] Trial 10 finished with value: 0.6252 and parameters: {'width': 16, 'dropout': 0.41374185832
+19801, 'batchnorm': True, 'augment': False, 'optimizer': 'Adam', 'lr': 0.00010719205315679633, 'batch_size': 64, 'weigh
+t_decay': 1.3772335396817672e-06}. Best is trial 5 with value: 0.7294.
+  trial 11 epoch 1: val accuracy 0.1330 (87s)
+  trial 11 epoch 2: val accuracy 0.2326 (59s)
+[I 2026-11-15 13:21:20,041] Trial 11 pruned. 
+Best trial 5: val accuracy 0.7294
+Best params: {'width': 64, 'dropout': 0.12428485684878636, 'batchnorm': True, 'augment': False, 'optimizer': 'Adam', 'lr': 0.00014863270925619807, 'batch_size': 128, 'weight_decay': 0.0005533128224142919}
+Importances: {'lr': 0.3813, 'width': 0.2877, 'batch_size': 0.1042, 'batchnorm': 0.0553, 'augment': 0.0537, 'weight_decay': 0.05, 'dropout': 0.0372, 'optimizer': 0.0306}
+HPO time 1356.0s

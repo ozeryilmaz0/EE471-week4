@@ -1,0 +1,19 @@
+﻿Best params: {'width': 64, 'dropout': 0.12428485684878636, 'batchnorm': True, 'augment': False, 'optimizer': 'Adam', 'lr': 0.00014863270925619807, 'batch_size': 128, 'weight_decay': 0.0005533128224142919}
+Using cuda device
+Epoch  1: train loss 1.1920, val accuracy 68.02%, val loss 0.8985
+Epoch  2: train loss 0.7745, val accuracy 65.14%, val loss 1.0727
+Epoch  3: train loss 0.6076, val accuracy 71.60%, val loss 0.8085
+Epoch  4: train loss 0.4897, val accuracy 79.82%, val loss 0.5930
+Epoch  5: train loss 0.3955, val accuracy 79.50%, val loss 0.6325
+Epoch  6: train loss 0.3116, val accuracy 79.90%, val loss 0.6168
+Epoch  7: train loss 0.2342, val accuracy 80.52%, val loss 0.6045
+Epoch  8: train loss 0.1835, val accuracy 81.16%, val loss 0.5940
+Epoch  9: train loss 0.1356, val accuracy 81.58%, val loss 0.6146
+Epoch 10: train loss 0.1104, val accuracy 81.74%, val loss 0.6031
+Epoch 11: train loss 0.0844, val accuracy 81.04%, val loss 0.6784
+Epoch 12: train loss 0.0722, val accuracy 78.88%, val loss 0.8247
+Epoch 13: train loss 0.0689, val accuracy 81.36%, val loss 0.7213
+Epoch 14: train loss 0.0785, val accuracy 79.72%, val loss 0.7941
+Epoch 15: train loss 0.0553, val accuracy 81.06%, val loss 0.7453
+Early stopping: no improvement for 5 epochs
+Best epoch 10 (val 81.74%) -> test accuracy 81.07%, test loss 0.6502

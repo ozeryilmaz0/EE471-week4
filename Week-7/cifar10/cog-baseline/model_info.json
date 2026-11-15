@@ -1,0 +1,7 @@
+{
+  "model_name": "cifar-baseline",
+  "architecture": "Net",
+  "kwargs": {},
+  "test_accuracy": 0.5426,
+  "weights": "baseline.pth"
+}
