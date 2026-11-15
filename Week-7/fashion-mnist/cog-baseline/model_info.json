@@ -1,0 +1,7 @@
+{
+  "model_name": "fashion-baseline",
+  "architecture": "NeuralNetwork",
+  "kwargs": {},
+  "test_accuracy": 0.6415,
+  "weights": "baseline.pth"
+}

@@ -1,0 +1,4 @@
+# Only run.py, model.py, model_info.json and the .pth are needed in the image.
+__pycache__/
+*.md
+.cog/

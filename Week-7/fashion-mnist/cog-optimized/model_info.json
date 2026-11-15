@@ -1,0 +1,10 @@
+{
+  "model_name": "fashion-optimized",
+  "architecture": "NeuralNetwork",
+  "kwargs": {
+    "hidden_size": 1024,
+    "dropout": 0.12008112761222367
+  },
+  "test_accuracy": 0.8958,
+  "weights": "optimized.pth"
+}
