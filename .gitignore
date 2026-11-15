@@ -12,3 +12,7 @@ payload.json
 VIDEO_NOTES*.md
 VIDEO_*.md
 Week-6/cat-classifier/hub/
+
+# Week 7: downloaded datasets and Cog build state
+data/
+.cog/
