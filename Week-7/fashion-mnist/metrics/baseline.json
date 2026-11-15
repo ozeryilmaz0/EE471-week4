@@ -1,0 +1,52 @@
+{
+  "model_name": "fashion-baseline",
+  "dataset": "Fashion-MNIST",
+  "test_accuracy": 0.6415,
+  "test_loss": 1.0898,
+  "epochs": 5,
+  "train_time_sec": 102.9,
+  "num_parameters": 669706,
+  "device": "cuda",
+  "hyperparameters": {
+    "optimizer": "SGD",
+    "lr": 0.001,
+    "momentum": 0.0,
+    "batch_size": 64,
+    "hidden_size": 512,
+    "dropout": 0.0,
+    "weight_decay": 0.0,
+    "transform": "ToTensor"
+  },
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 2.2375,
+      "test_accuracy": 0.5092,
+      "test_loss": 2.1667
+    },
+    {
+      "epoch": 2,
+      "train_loss": 2.0537,
+      "test_accuracy": 0.5586,
+      "test_loss": 1.9155
+    },
+    {
+      "epoch": 3,
+      "train_loss": 1.7252,
+      "test_accuracy": 0.588,
+      "test_loss": 1.5415
+    },
+    {
+      "epoch": 4,
+      "train_loss": 1.3828,
+      "test_accuracy": 0.6224,
+      "test_loss": 1.2602
+    },
+    {
+      "epoch": 5,
+      "train_loss": 1.159,
+      "test_accuracy": 0.6415,
+      "test_loss": 1.0898
+    }
+  ]
+}
