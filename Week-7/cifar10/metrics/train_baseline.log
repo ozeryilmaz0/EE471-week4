@@ -1,0 +1,19 @@
+﻿Using cuda device
+Epoch 1
+[ 2000] loss: 2.170
+[ 4000] loss: 1.789
+[ 6000] loss: 1.657
+[ 8000] loss: 1.556
+[10000] loss: 1.518
+[12000] loss: 1.440
+Accuracy of the network on the 10000 test images: 48.0 %
+Epoch 2
+[ 2000] loss: 1.366
+[ 4000] loss: 1.360
+[ 6000] loss: 1.310
+[ 8000] loss: 1.288
+[10000] loss: 1.316
+[12000] loss: 1.242
+Accuracy of the network on the 10000 test images: 54.3 %
+Finished Training
+Test accuracy 0.5426, training time 157.8s

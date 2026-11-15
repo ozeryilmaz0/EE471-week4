@@ -1,0 +1,33 @@
+{
+  "model_name": "cifar-baseline",
+  "dataset": "CIFAR-10",
+  "test_accuracy": 0.5426,
+  "test_loss": 1.2735,
+  "epochs": 2,
+  "train_time_sec": 157.8,
+  "num_parameters": 62006,
+  "device": "cuda",
+  "hyperparameters": {
+    "optimizer": "SGD",
+    "lr": 0.001,
+    "momentum": 0.9,
+    "batch_size": 4,
+    "weight_decay": 0.0,
+    "transform": "ToTensor + Normalize(0.5)",
+    "augment": false
+  },
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 1.677,
+      "test_accuracy": 0.4804,
+      "test_loss": 1.4637
+    },
+    {
+      "epoch": 2,
+      "train_loss": 1.3114,
+      "test_accuracy": 0.5426,
+      "test_loss": 1.2735
+    }
+  ]
+}
