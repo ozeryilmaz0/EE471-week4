@@ -17,3 +17,18 @@ Week-6/cat-classifier/hub/
 data/
 .cog/
 Week-7/my_images/
+
+# Week 8: MediaPipe
+Week-8/.venv/
+Week-8/*.log
+Week-8/task1/demo_timestamps.json
+# Runtime caches written next to the models
+*.xnnpack_cache
+Week-8/models/*_cache*
+# Models larger than 50 MB (re-download with Week-8/download_models.py)
+Week-8/models/parakeet_tdt_0.6b_v3_5s_i8_stateful.litertlm
+Week-8/models/phonon_int8.litertlm
+Week-8/models/embeddinggemma-2-text-270m.litertlm
+Week-8/models/embeddinggemma-2-text-vision-440m.litertlm
+Week-8/models/proofread_quant_200m.litertlm
+Week-8/models/summarization_quant_200m_2modes.litertlm
