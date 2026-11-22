@@ -1,0 +1,10 @@
+build:
+  python_version: "3.12"            # mediapipe 1.2.3 has wheels for this version
+  system_packages:
+    - libgl1                        # needed by OpenCV (pulled in by mediapipe)
+    - libglib2.0-0
+    - libegl1                       # libmediapipe.so links to libEGL.so.1
+    - libgles2                      # ... and libGLESv2.so.2
+  python_requirements: requirements.txt
+run: "run.py:Runner"
+# face_landmarker.task sits in this folder, so `cog build` copies it into the image.

@@ -205,9 +205,9 @@ docker stop face-dir
 
 | Image | What the photo shows (checked by eye) | Yaw (matrix) | Yaw (nose fallback) | CLI `subject` | CLI `viewer` | Cog `subject` | Cog `viewer` |
 |---|---|---|---|---|---|---|---|
-| `face-1.png` | nose points to the left of the image: she looks to her **own right** | −35.4° | −44.4° | `right` | `left` | <!-- F1S --> | <!-- F1V --> |
-| `face-2.png` | nose points to the right of the image: she looks to her **own left** | +32.0° | +42.0° | `left` | `right` | <!-- F2S --> | <!-- F2V --> |
-| `face-3.png` | frontal face | −2.4° | −0.8° | `straight` | `straight` | <!-- F3S --> | <!-- F3V --> |
+| `face-1.png` | nose points to the left of the image: she looks to her **own right** | −35.4° | −44.4° | `right` | `left` | `right` | `left` |
+| `face-2.png` | nose points to the right of the image: she looks to her **own left** | +32.0° | +42.0° | `left` | `right` | `left` | `right` |
+| `face-3.png` | frontal face | −2.4° | −0.8° | `straight` | `straight` | `straight` | `straight` |
 
 The matrix and the nose fallback agree on all three images (`--method nose`).
 `task3-face/outputs/face-N-annotated.png` shows the face mesh, the nose tip and outer eye
