@@ -64,6 +64,40 @@ def get_pipeline(task: str, model: str, gpu_fp16: bool = False) -> Any:
     return pipeline(task, model=model, device="cpu")
 
 
+@lru_cache(maxsize=None)
+def get_tokenizer(model: str) -> Any:
+    """AutoTokenizer.from_pretrained, loaded once per process."""
+    from transformers import AutoTokenizer
+    return AutoTokenizer.from_pretrained(model)
+
+
+@lru_cache(maxsize=None)
+def get_model(model: str) -> Any:
+    """AutoModel.from_pretrained (the bare Transformer, no task head), loaded once per process."""
+    from transformers import AutoModel
+    return AutoModel.from_pretrained(model)
+
+
+SPECIAL_STYLE = "bold black on yellow"
+PAD_STYLE = "bright_black"
+
+
+def token_chips(tokens: list[str], special: set[str] | None = None) -> Text:
+    """Show tokens as separate chips; special tokens ([CLS], [SEP], [PAD]) are highlighted."""
+    special = special or {"[CLS]", "[SEP]", "[PAD]"}
+    out = Text()
+    for i, tok in enumerate(tokens):
+        if i:
+            out.append(" ")
+        if tok == "[PAD]":
+            out.append(f" {tok} ", style=PAD_STYLE)
+        elif tok in special:
+            out.append(f" {tok} ", style=SPECIAL_STYLE)
+        else:
+            out.append(f" {tok} ", style="bold white on blue")
+    return out
+
+
 def table(*columns: str, title: str | None = None, **kwargs: Any) -> Table:
     """A table with the common style of all demos."""
     t = Table(title=title, header_style="bold cyan", border_style="bright_black",
