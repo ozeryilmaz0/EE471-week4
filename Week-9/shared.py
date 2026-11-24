@@ -125,7 +125,7 @@ def score_bar(score: float, width: int = 20) -> Text:
         + Text(f" {score:6.1%}", style="bold")
 
 
-def image_preview(path: Path, width: int = 44) -> Text:
+def image_preview(path: Path, width: int = 36) -> Text:
     """Draw a small colour thumbnail of an image with half-block characters."""
     from PIL import Image
 
@@ -176,7 +176,7 @@ def input_panel(module: ModuleType) -> Panel:
     for label, value in module.inputs():
         grid.add_row(label, Text(value) if isinstance(value, str) else value)
     return Panel(grid, title="[bold]INPUT", subtitle=f"model: {module.MODEL}",
-                 border_style="magenta", padding=(1, 2))
+                 border_style="magenta", padding=(0, 2))
 
 
 def run_standalone(module: ModuleType) -> None:
