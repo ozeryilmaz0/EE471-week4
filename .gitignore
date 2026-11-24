@@ -32,3 +32,7 @@ Week-8/models/embeddinggemma-2-text-270m.litertlm
 Week-8/models/embeddinggemma-2-text-vision-440m.litertlm
 Week-8/models/proofread_quant_200m.litertlm
 Week-8/models/summarization_quant_200m_2modes.litertlm
+
+# Week 9: Hugging Face
+saved_model/
+Week-9/demo_timestamps.json

@@ -1,0 +1,13 @@
+# Week 9 - Hugging Face pipelines (install into the repo-root venv; torch with CUDA is installed separately)
+# transformers 5.x removed the summarization / translation / question-answering pipelines
+# that the LLM Course chapter 1 uses, so we stay on 4.x. gradio 5.x matches its huggingface-hub.
+transformers>=4.50,<5
+accelerate
+sentencepiece
+sacremoses
+gradio>=5,<6
+gradio_client
+soundfile
+librosa
+pillow
+rich
