@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>DreamCanvas AI</title>
+  <meta name="description" content="Paint images with Stable Diffusion and chat by voice with SmolLM2.">
+  <meta name="theme-color" content="#0B0820">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 44'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23A855F7'/%3E%3Cstop offset='1' stop-color='%233B82F6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='44' height='44' rx='14' fill='url(%23g)'/%3E%3Cpath d='M22 9Q23.6 20.4 35 22Q23.6 23.6 22 35Q20.4 23.6 9 22Q20.4 20.4 22 9Z' fill='white'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <main class="app" id="app">
+    <div class="orbs" aria-hidden="true">
+      <span class="orb orb-1"></span><span class="orb orb-2"></span>
+      <span class="orb orb-3"></span><span class="orb orb-4"></span>
+    </div>
+
+    <!-- 1. Title + icon -->
+    <header class="header">
+      <div class="logo" aria-hidden="true">
+        <svg viewBox="0 0 44 44" width="44" height="44">
+          <path d="M22 9 Q23.6 20.4 35 22 Q23.6 23.6 22 35 Q20.4 23.6 9 22 Q20.4 20.4 22 9 Z" fill="#fff"/>
+          <path d="M34 5 Q34.6 9.4 39 10 Q34.6 10.6 34 15 Q33.4 10.6 29 10 Q33.4 9.4 34 5 Z" fill="#fff" opacity=".85"/>
+        </svg>
+      </div>
+      <div class="titles">
+        <h1>DreamCanvas <span class="grad-text">AI</span></h1>
+        <p class="subtitle">Imagine · Chat · Create</p>
+      </div>
+      <button class="icon-btn glass voice-toggle" id="voiceToggle" type="button" aria-pressed="true" title="Read replies aloud (on)">
+        <svg class="icon icon-on" viewBox="0 0 24 24"><path d="M11 5 6 9H2v6h4l5 4V5Z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+        <svg class="icon icon-off" viewBox="0 0 24 24"><path d="M11 5 6 9H2v6h4l5 4V5Z"/><path d="m22 9-6 6"/><path d="m16 9 6 6"/></svg>
+      </button>
+    </header>
+
+    <!-- 2. Image output box -->
+    <section class="image-box" id="imageBox" aria-label="Generated image">
+      <svg class="placeholder" id="placeholder" viewBox="20 100 390 390" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <defs>
+          <linearGradient id="phSky" x1="0" y1="100" x2="0" y2="490" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#1E1B4B"/><stop offset=".5" stop-color="#6D28D9"/>
+            <stop offset=".85" stop-color="#F472B6"/><stop offset="1" stop-color="#FDBA74"/>
+          </linearGradient>
+          <radialGradient id="phGlow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(300 200) scale(90)">
+            <stop offset="0" stop-color="#FDE68A" stop-opacity=".55"/><stop offset="1" stop-color="#FDE68A" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <rect x="20" y="100" width="390" height="390" fill="url(#phSky)"/>
+        <circle cx="300" cy="200" r="90" fill="url(#phGlow)"/>
+        <circle cx="300" cy="200" r="30" fill="#FDE68A"/>
+        <g fill="#fff"><circle cx="70" cy="140" r="1.6"/><circle cx="120" cy="175" r="1.2" opacity=".7"/><circle cx="180" cy="130" r="1.8"/><circle cx="230" cy="165" r="1.1" opacity=".6"/><circle cx="370" cy="150" r="1.5" opacity=".8"/><circle cx="95" cy="215" r="1.2" opacity=".6"/></g>
+        <path d="M20 360 L90 290 L140 330 L210 270 L290 340 L350 300 L410 350 L410 490 L20 490 Z" fill="#4C1D95" opacity=".9"/>
+        <g fill="#C4B5FD"><path d="M196 300 L206 250 L216 300 Z"/><path d="M214 300 L228 228 L242 300 Z"/><path d="M240 300 L250 262 L260 300 Z"/><rect x="192" y="298" width="72" height="34" rx="2"/></g>
+        <path d="M20 400 L80 350 L150 395 L240 340 L320 395 L410 365 L410 490 L20 490 Z" fill="#312E81"/>
+        <path d="M20 440 C120 410 220 455 410 425 L410 490 L20 490 Z" fill="#1E1B4B"/>
+      </svg>
+      <div class="empty-hint" id="emptyHint">Describe an idea below and tap the palette to paint it</div>
+      <img id="resultImage" alt="" hidden>
+      <div class="loading" id="loading" hidden>
+        <div class="spinner"></div>
+        <span>Painting your idea…</span>
+      </div>
+      <div class="chip info-chip" id="infoChip" hidden></div>
+      <a class="icon-btn small dark download-btn" id="downloadBtn" href="#" download hidden title="Download image" aria-label="Download image">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+      </a>
+      <button class="paint-btn" id="paintBtn" type="button" title="Paint (generate image)" aria-label="Paint image">
+        <svg class="palette" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z" fill="#FDF4FF"/>
+          <circle cx="13.5" cy="6.5" r="1.7" fill="#F472B6"/><circle cx="17.5" cy="10.5" r="1.7" fill="#60A5FA"/>
+          <circle cx="8.5" cy="7.5" r="1.7" fill="#FBBF24"/><circle cx="6.5" cy="12.5" r="1.7" fill="#34D399"/>
+        </svg>
+        <span class="btn-spinner"></span>
+      </button>
+    </section>
+
+    <!-- 3. Prompt input box -->
+    <label class="prompt-box glass" for="promptInput">
+      <svg class="sparkle" viewBox="0 0 24 24" aria-hidden="true">
+        <defs><linearGradient id="spark" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#C084FC"/><stop offset="1" stop-color="#60A5FA"/></linearGradient></defs>
+        <path d="M12 0 Q13.2 10 24 12 Q13.2 14 12 24 Q10.8 14 0 12 Q10.8 10 12 0 Z" fill="url(#spark)"/>
+      </svg>
+      <input id="promptInput" type="text" maxlength="500" autocomplete="off" placeholder="Describe the image you want to paint…">
+    </label>
+
+    <!-- 4. Chat history -->
+    <section class="chat" id="chat" aria-live="polite" aria-label="Chat history"></section>
+
+    <!-- 5. Mic + message box + send -->
+    <form class="composer" id="composer" autocomplete="off">
+      <button class="round-btn glass mic-btn" id="micBtn" type="button" title="Record voice message" aria-label="Record voice message">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><path d="M12 19v3"/></svg>
+        <span class="btn-spinner"></span>
+      </button>
+      <input class="message-box glass" id="messageInput" type="text" maxlength="1000" placeholder="Type or tap the mic…" aria-label="Message">
+      <button class="round-btn send-btn" id="sendBtn" type="submit" title="Send" aria-label="Send message">
+        <svg class="icon" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+      </button>
+    </form>
+
+    <div class="toast" id="toast" role="status" hidden></div>
+  </main>
+
+  <template id="botTemplate">
+    <div class="msg bot">
+      <div class="bubble"><p class="text"></p></div>
+      <button class="chip use-prompt" type="button">✦ Use as image prompt</button>
+    </div>
+  </template>
+
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>

@@ -41,15 +41,16 @@ def is_prompt_request(text: str) -> bool:
     return bool(PROMPT_REQUEST.search(text) and ASKING.search(text))
 
 
-def trim_to_sentence(text: str) -> str:
-    """Cut an unfinished reply back to its last complete sentence."""
-    text = text.strip()
-    if not text or text[-1] in ".!?":
+def trim_to_sentence(text: str, max_sentences: int = 3) -> str:
+    """Cut an unfinished reply back to its last complete sentence (max `max_sentences`)."""
+    text = " ".join(text.split())
+    if not text:
         return text
-    cut = max(text.rfind(". "), text.rfind("! "), text.rfind("? "))
-    if cut > 0:
-        return text[: cut + 1]
-    return text.rstrip(",;:- ") + "."
+    if text[-1] not in ".!?":
+        cut = max(text.rfind(". "), text.rfind("! "), text.rfind("? "))
+        text = text[: cut + 1] if cut > 0 else text.rstrip(",;:- ") + "."
+    sentences = re.split(r"(?<=[.!?])\s+", text)
+    return " ".join(sentences[:max_sentences])
 
 
 def clean_image_prompt(text: str, max_words: int = 40) -> str:
