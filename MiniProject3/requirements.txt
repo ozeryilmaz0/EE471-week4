@@ -1,0 +1,13 @@
+# Install PyTorch with CUDA first, e.g.:
+#   pip install torch --index-url https://download.pytorch.org/whl/cu128
+torch>=2.4
+diffusers==0.35.2
+transformers==4.57.6
+huggingface_hub==0.36.2
+accelerate>=1.0
+safetensors>=0.4
+flask>=3.0
+soundfile>=0.12
+librosa>=0.10
+numpy>=1.26
+pillow>=10.0
