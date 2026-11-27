@@ -1,0 +1,185 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="430" height="932" viewBox="0 0 430 932" fill="none">
+  <title>DreamCanvas AI - Mobile Mockup</title>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="932" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0B0820"/>
+      <stop offset="0.55" stop-color="#120B2E"/>
+      <stop offset="1" stop-color="#0A1030"/>
+    </linearGradient>
+    <linearGradient id="brand" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#A855F7"/>
+      <stop offset="0.5" stop-color="#6366F1"/>
+      <stop offset="1" stop-color="#3B82F6"/>
+    </linearGradient>
+    <linearGradient id="brandText" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#C084FC"/>
+      <stop offset="1" stop-color="#60A5FA"/>
+    </linearGradient>
+    <linearGradient id="sky" x1="0" y1="100" x2="0" y2="490" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1E1B4B"/>
+      <stop offset="0.5" stop-color="#6D28D9"/>
+      <stop offset="0.85" stop-color="#F472B6"/>
+      <stop offset="1" stop-color="#FDBA74"/>
+    </linearGradient>
+    <radialGradient id="moonGlow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(300 200) scale(90)">
+      <stop offset="0" stop-color="#FDE68A" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#FDE68A" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="blur60" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="60"/>
+    </filter>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="8"/>
+    </filter>
+    <clipPath id="phone">
+      <rect width="430" height="932" rx="44"/>
+    </clipPath>
+    <clipPath id="imageClip">
+      <rect x="20" y="100" width="390" height="390" rx="24"/>
+    </clipPath>
+  </defs>
+
+  <g clip-path="url(#phone)">
+    <!-- Background -->
+    <rect id="Background" width="430" height="932" fill="url(#bg)"/>
+    <g id="Glow orbs" filter="url(#blur60)">
+      <circle cx="40" cy="150" r="170" fill="#7C3AED" opacity="0.45"/>
+      <circle cx="400" cy="70" r="110" fill="#C026D3" opacity="0.30"/>
+      <circle cx="420" cy="640" r="190" fill="#2563EB" opacity="0.38"/>
+      <circle cx="30" cy="880" r="130" fill="#7C3AED" opacity="0.25"/>
+    </g>
+
+    <!-- Header: icon + title -->
+    <g id="Header">
+      <rect id="Logo" x="20" y="40" width="44" height="44" rx="14" fill="url(#brand)"/>
+      <path d="M42 49 Q43.6 60.4 55 62 Q43.6 63.6 42 75 Q40.4 63.6 29 62 Q40.4 60.4 42 49 Z" fill="#FFFFFF"/>
+      <path d="M54 45 Q54.6 49.4 59 50 Q54.6 50.6 54 55 Q53.4 50.6 49 50 Q53.4 49.4 54 45 Z" fill="#FFFFFF" opacity="0.85"/>
+      <text x="76" y="61" font-family="Inter, 'Segoe UI', sans-serif" font-size="22" font-weight="700" letter-spacing="-0.3" fill="#F5F3FF">DreamCanvas <tspan fill="url(#brandText)">AI</tspan></text>
+      <text x="76" y="79" font-family="Inter, 'Segoe UI', sans-serif" font-size="12" font-weight="500" fill="#A5A3C7">Imagine · Chat · Create</text>
+      <g id="Voice toggle">
+        <circle cx="390" cy="62" r="20" fill="#FFFFFF" fill-opacity="0.06" stroke="#FFFFFF" stroke-opacity="0.14"/>
+        <g transform="translate(380 52) scale(0.8333)" stroke="#F5F3FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M11 5 6 9H2v6h4l5 4V5Z"/>
+          <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+          <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+        </g>
+      </g>
+    </g>
+
+    <!-- Image output box -->
+    <g id="Image output">
+      <g clip-path="url(#imageClip)">
+        <rect x="20" y="100" width="390" height="390" fill="url(#sky)"/>
+        <circle cx="300" cy="200" r="90" fill="url(#moonGlow)"/>
+        <circle cx="300" cy="200" r="30" fill="#FDE68A"/>
+        <g fill="#FFFFFF">
+          <circle cx="70" cy="140" r="1.6" opacity="0.9"/>
+          <circle cx="120" cy="175" r="1.2" opacity="0.7"/>
+          <circle cx="180" cy="130" r="1.8" opacity="0.9"/>
+          <circle cx="230" cy="165" r="1.1" opacity="0.6"/>
+          <circle cx="370" cy="150" r="1.5" opacity="0.8"/>
+          <circle cx="95" cy="215" r="1.2" opacity="0.6"/>
+          <circle cx="355" cy="250" r="1.2" opacity="0.6"/>
+        </g>
+        <path d="M20 360 L90 290 L140 330 L210 270 L290 340 L350 300 L410 350 L410 490 L20 490 Z" fill="#4C1D95" opacity="0.9"/>
+        <!-- Crystal castle -->
+        <g fill="#C4B5FD">
+          <path d="M196 300 L206 250 L216 300 Z"/>
+          <path d="M214 300 L228 228 L242 300 Z"/>
+          <path d="M240 300 L250 262 L260 300 Z"/>
+          <rect x="192" y="298" width="72" height="34" rx="2"/>
+        </g>
+        <path d="M20 400 L80 350 L150 395 L240 340 L320 395 L410 365 L410 490 L20 490 Z" fill="#312E81"/>
+        <path d="M20 440 C120 410 220 455 410 425 L410 490 L20 490 Z" fill="#1E1B4B"/>
+      </g>
+      <rect x="20.5" y="100.5" width="389" height="389" rx="23.5" stroke="#FFFFFF" stroke-opacity="0.16"/>
+      <g id="Info chip">
+        <rect x="34" y="114" width="100" height="26" rx="13" fill="#0B0820" fill-opacity="0.45" stroke="#FFFFFF" stroke-opacity="0.18"/>
+        <text x="47" y="131" font-family="Inter, 'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#F5F3FF">512 × 512 · 1.2 s</text>
+      </g>
+      <g id="Download button">
+        <circle cx="382" cy="128" r="16" fill="#0B0820" fill-opacity="0.45" stroke="#FFFFFF" stroke-opacity="0.18"/>
+        <g transform="translate(374 120) scale(0.6667)" stroke="#F5F3FF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <path d="M7 10l5 5 5-5"/>
+          <path d="M12 15V3"/>
+        </g>
+      </g>
+      <g id="Paint button">
+        <circle cx="366" cy="448" r="28" fill="#8B5CF6" opacity="0.6" filter="url(#glow)"/>
+        <circle cx="366" cy="446" r="28" fill="url(#brand)" stroke="#FFFFFF" stroke-opacity="0.35"/>
+        <g id="Palette icon" transform="translate(353 433) scale(1.0833)">
+          <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z" fill="#FDF4FF"/>
+          <circle cx="13.5" cy="6.5" r="1.7" fill="#F472B6"/>
+          <circle cx="17.5" cy="10.5" r="1.7" fill="#60A5FA"/>
+          <circle cx="8.5" cy="7.5" r="1.7" fill="#FBBF24"/>
+          <circle cx="6.5" cy="12.5" r="1.7" fill="#34D399"/>
+        </g>
+      </g>
+    </g>
+
+    <!-- Prompt input box -->
+    <g id="Prompt input">
+      <rect x="20" y="502" width="390" height="48" rx="16" fill="#FFFFFF" fill-opacity="0.06" stroke="#FFFFFF" stroke-opacity="0.14"/>
+      <path d="M40 514 Q41 524 50 526 Q41 528 40 538 Q39 528 30 526 Q39 524 40 514 Z" fill="url(#brandText)"/>
+      <text x="60" y="531" font-family="Inter, 'Segoe UI', sans-serif" font-size="14" font-weight="500" fill="#F5F3FF">A glowing crystal castle above a misty purple…</text>
+    </g>
+
+    <!-- Chat history -->
+    <g id="Chat history">
+      <rect x="20" y="562" width="390" height="280" rx="24" fill="#FFFFFF" fill-opacity="0.04" stroke="#FFFFFF" stroke-opacity="0.12"/>
+
+      <g id="User bubble 1">
+        <rect x="128" y="578" width="268" height="36" rx="18" fill="url(#brand)"/>
+        <text x="144" y="601" font-family="Inter, 'Segoe UI', sans-serif" font-size="13" font-weight="500" fill="#FFFFFF">Hi! Can you give me an image prompt?</text>
+      </g>
+
+      <g id="Bot bubble 1">
+        <rect x="34" y="624" width="300" height="104" rx="18" fill="#FFFFFF" fill-opacity="0.08" stroke="#FFFFFF" stroke-opacity="0.12"/>
+        <text font-family="Inter, 'Segoe UI', sans-serif" font-size="13" font-weight="400" fill="#E9E7FF">
+          <tspan x="48" y="645">A glowing crystal castle floating above a</tspan>
+          <tspan x="48" y="663">misty purple valley at sunset, cinematic</tspan>
+          <tspan x="48" y="681">lighting, ultra detailed digital painting</tspan>
+        </text>
+        <rect x="48" y="694" width="146" height="24" rx="12" fill="#8B5CF6" fill-opacity="0.22" stroke="#A78BFA" stroke-opacity="0.55"/>
+        <text x="60" y="710" font-family="Inter, 'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#DDD6FE">✦ Use as image prompt</text>
+      </g>
+
+      <g id="User bubble 2">
+        <rect x="226" y="738" width="170" height="36" rx="18" fill="url(#brand)"/>
+        <text x="242" y="761" font-family="Inter, 'Segoe UI', sans-serif" font-size="13" font-weight="500" fill="#FFFFFF">Wow, painting it now!</text>
+      </g>
+
+      <g id="Bot bubble 2">
+        <rect x="34" y="784" width="236" height="36" rx="18" fill="#FFFFFF" fill-opacity="0.08" stroke="#FFFFFF" stroke-opacity="0.12"/>
+        <text x="48" y="807" font-family="Inter, 'Segoe UI', sans-serif" font-size="13" font-weight="400" fill="#E9E7FF">Love it! Want another prompt?</text>
+      </g>
+    </g>
+
+    <!-- Bottom bar: mic + message box + send -->
+    <g id="Composer">
+      <g id="Mic button">
+        <circle cx="46" cy="882" r="26" fill="#FFFFFF" fill-opacity="0.08" stroke="#FFFFFF" stroke-opacity="0.18"/>
+        <g transform="translate(35 871) scale(0.9167)" stroke="#F5F3FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
+          <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+          <path d="M12 19v3"/>
+        </g>
+      </g>
+      <g id="Message box">
+        <rect x="84" y="856" width="262" height="52" rx="26" fill="#FFFFFF" fill-opacity="0.06" stroke="#FFFFFF" stroke-opacity="0.14"/>
+        <text x="106" y="887" font-family="Inter, 'Segoe UI', sans-serif" font-size="14" font-weight="400" fill="#8E8AB8">Type or tap the mic…</text>
+      </g>
+      <g id="Send button">
+        <circle cx="384" cy="882" r="26" fill="url(#brand)"/>
+        <g transform="translate(373 872) scale(0.875)" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m22 2-7 20-4-9-9-4Z"/>
+          <path d="M22 2 11 13"/>
+        </g>
+      </g>
+    </g>
+
+    <rect id="Home indicator" x="150" y="918" width="130" height="5" rx="2.5" fill="#FFFFFF" fill-opacity="0.35"/>
+  </g>
+  <rect x="0.5" y="0.5" width="429" height="931" rx="43.5" stroke="#FFFFFF" stroke-opacity="0.10"/>
+</svg>
