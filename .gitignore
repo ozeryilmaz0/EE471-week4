@@ -36,3 +36,7 @@ Week-8/models/summarization_quant_200m_2modes.litertlm
 # Week 9: Hugging Face
 saved_model/
 Week-9/demo_timestamps.json
+
+# Mini Project 3: generated images
+MiniProject3/outputs/
+outputs/
