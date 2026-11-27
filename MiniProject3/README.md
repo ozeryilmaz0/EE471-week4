@@ -14,7 +14,7 @@ combines three local AI models:
 |---|---|---|
 | <img src="design/mockup.png" width="250"> | <img src="docs/screenshot.png" width="250"> | <img src="docs/screenshot_mobile.png" width="250"> |
 
-**Figma:** FIGMA_LINK_HERE
+**Figma:** https://www.figma.com/design/qz3Aj4JiV5t3XboGna6Bkv/mockup?node-id=0-1
 
 ## Features
 
